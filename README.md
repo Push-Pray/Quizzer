@@ -10,3 +10,4 @@ The very first team project on the Software Development Project 1 course.
 - [Jaime Garcia](https://github.com/Mineja2017)
 - [Claudelle Klutse](https://github.com/Claudelle00)
 - [Kirill Rakhimov](https://github.com/rakhimichi)
+- [Naile Fejzullahu]((https://github.com/LilaFej))
