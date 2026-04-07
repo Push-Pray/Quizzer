@@ -7,4 +7,4 @@ The very first team project on the Software Development Project 1 course.
 
 ## Team members
 - [Mikhail Nekrasov](https://github.com/Mikhail-Nekrasov) 
-
+- [Jaime Garcia](https://github.com/Mineja2017)
