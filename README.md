@@ -11,3 +11,4 @@ The very first team project on the Software Development Project 1 course.
 - [Claudelle Klutse](https://github.com/Claudelle00)
 - [Kirill Rakhimov](https://github.com/rakhimichi)
 - [Naile Fejzullahu](https://github.com/LilaFej)
+- [Mehedi Hridoy](https://github.com/Ghost-137)
