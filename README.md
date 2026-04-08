@@ -12,3 +12,6 @@ The very first team project on the Software Development Project 1 course.
 - [Kirill Rakhimov](https://github.com/rakhimichi)
 - [Naile Fejzullahu](https://github.com/LilaFej)
 - [Mehedi Hridoy](https://github.com/Ghost-137)
+
+# Scrum Project
+- [Github Project](https://github.com/orgs/Push-Pray/projects/4)
