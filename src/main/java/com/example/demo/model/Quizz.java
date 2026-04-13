@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,15 @@ public class Quizz {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private Course course;
+    private String course;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "quizz")
     private List<Question> questions = new ArrayList <Question>();
 
     private String name;
+    private String description;
+    private boolean published = false;
+    private final LocalDate creationDate = LocalDate.now();
 
     public Quizz() {
 
@@ -35,12 +38,12 @@ public class Quizz {
         return id;
     }
 
-    public Course getCourse() {
+    public String getCourse() {
 
         return course;
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(String course) {
 
         this.course = course;
     }
@@ -63,5 +66,30 @@ public class Quizz {
     public void setName(String name) {
 
         this.name = name;
+    }
+
+    public String getDescription() {
+
+        return description;
+    }
+
+    public void setDescription(String description) {
+
+        this.description = description;
+    }
+
+    public boolean isPublished() {
+
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+
+        this.published = published;
+    }
+
+    public LocalDate getCreationDate() {
+
+        return creationDate;
     }
 }

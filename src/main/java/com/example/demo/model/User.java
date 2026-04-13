@@ -15,9 +15,6 @@ public class User {
     private String passwordHash;
     private String role;
 
-    @ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
-    private List<Course> courses = new ArrayList<Course>();
-
     public User(){
 
 
@@ -62,16 +59,6 @@ public class User {
     public void setRole(String role) {
 
         this.role = role;
-    }
-
-    public List <Course> getCourses() {
-
-        return courses;
-    }
-
-    public void setCourses(List <Course> courses) {
-
-        this.courses = courses;
     }
 }
 
