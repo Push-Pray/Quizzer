@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.Course;
 
@@ -9,16 +10,19 @@ import com.example.demo.model.Course;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, UserRepository userRepository) {
 
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
-    public void saveCourse(String name, String code, User teacher){
+    public Course saveCourse(String name, String code, Long teacherId){
         //implement role validation on the future
+        User teacher = userRepository.findById(teacherId).orElseThrow();
         Course newCourse = new Course(name, code);
         newCourse.setTeacher(teacher);
-        courseRepository.save(newCourse);
+        return courseRepository.save(newCourse);
     }
 }

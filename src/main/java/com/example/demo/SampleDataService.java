@@ -27,8 +27,8 @@ public class SampleDataService {
 
         try {
             User test = new User("test", "test");
-            userRepository.save(test);
-            courseService.saveCourse("testCourse", "CODE123", test);
+            test = userRepository.save(test);
+            courseService.saveCourse("testCourse", "CODE123", test.getId());
         }catch (Exception e){
 
             System.err.println(e.getMessage());
