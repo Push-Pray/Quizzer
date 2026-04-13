@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class Course {
 
     private String name;
     private String code;
+    private boolean published = false;
+    private final LocalDate addedOn = LocalDate.now();
 
     public Course(){
 
@@ -38,6 +41,21 @@ public class Course {
     public Long getId() {
 
         return id;
+    }
+
+    public boolean isPublished() {
+
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+
+        this.published = published;
+    }
+
+    public LocalDate getAddedOn() {
+
+        return addedOn;
     }
 
     public List <User> getStudents() {
