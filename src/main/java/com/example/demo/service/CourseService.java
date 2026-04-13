@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.DTO.SimpleCourseDTO;
 import com.example.demo.model.User;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.UserRepository;
@@ -24,5 +25,10 @@ public class CourseService {
         Course newCourse = new Course(name, code);
         newCourse.setTeacher(teacher);
         return courseRepository.save(newCourse);
+    }
+
+    public SimpleCourseDTO saveCourseDTO(SimpleCourseDTO courseDTO){
+
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.RESTController;
 
+import com.example.demo.DTO.SimpleCourseDTO;
 import com.example.demo.model.Course;
 import com.example.demo.model.User;
 import com.example.demo.service.CourseService;
@@ -19,10 +20,10 @@ public class CourseRestController {
     }
 
     @PostMapping("/course")
-    public ResponseEntity<Object> createCourse(@RequestBody Long userId, @RequestBody String name, @RequestBody String code){
+    public ResponseEntity<Object> createCourse(@RequestBody SimpleCourseDTO courseDTO){
 
         try{
-            Course course = courseService.saveCourse(name, code, userId);
+            Course course = courseService.saveCourseDTO(courseDTO);
             return ResponseEntity.ok(course);
         }catch (RuntimeException e){
 
