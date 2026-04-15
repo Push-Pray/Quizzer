@@ -4,6 +4,10 @@ import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.service.QuizzService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/api")
@@ -43,6 +47,16 @@ public class QuizzRestController {
         try {
             QuizzInfoDTO entity = quizzService.deleteById(id);
             return ResponseEntity.ok().body(entity);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/quizz/{id}")
+    public ResponseEntity<Object> updateQuizz(@PathVariable Long id, @RequestBody QuizzInfoDTO updatedQuizzDTO) {
+        try {
+            QuizzInfoDTO updatedQuizz = quizzService.updateQuizz(id, updatedQuizzDTO);
+            return ResponseEntity.ok(updatedQuizz);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

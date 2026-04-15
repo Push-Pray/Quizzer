@@ -41,4 +41,17 @@ public class QuizzService {
 
         return quizzMapper.toDTOs(quizzRepository.findAll());
     }
+    public QuizzInfoDTO updateQuizz(Long id, QuizzInfoDTO updatedQuizzDTO) {
+
+
+        Quizz existingQuizz = quizzRepository.findById(id).orElseThrow();
+        existingQuizz.setName(updatedQuizzDTO.name());
+        existingQuizz.setCourse(updatedQuizzDTO.course());
+        existingQuizz.setDescription(updatedQuizzDTO.description());
+        existingQuizz.setPublished(updatedQuizzDTO.published());
+
+        Quizz saveQuizz = quizzRepository.save(existingQuizz);
+        return quizzMapper.toDTO(saveQuizz);
+    }
+
 }
