@@ -1,7 +1,7 @@
-package com.example.demo.mapper;
+package com.example.quizzer.mapper;
 
-import com.example.demo.DTO.QuizzInfoDTO;
-import com.example.demo.model.Quizz;
+import com.example.quizzer.DTO.QuizzInfoDTO;
+import com.example.quizzer.model.Quizz;
 import org.mapstruct.Mapper;
 
 import java.util.List;

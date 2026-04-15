@@ -1,4 +1,4 @@
-package com.example.demo.DTO;
+package com.example.quizzer.DTO;
 
 public record TeacherInfoDTO(
 

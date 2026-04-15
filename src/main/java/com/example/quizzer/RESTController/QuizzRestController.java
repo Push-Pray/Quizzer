@@ -1,7 +1,7 @@
-package com.example.demo.RESTController;
+package com.example.quizzer.RESTController;
 
-import com.example.demo.DTO.QuizzInfoDTO;
-import com.example.demo.service.QuizzService;
+import com.example.quizzer.DTO.QuizzInfoDTO;
+import com.example.quizzer.service.QuizzService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

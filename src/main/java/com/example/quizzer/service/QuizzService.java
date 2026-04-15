@@ -1,11 +1,11 @@
-package com.example.demo.service;
+package com.example.quizzer.service;
 
-import com.example.demo.DTO.QuizzInfoDTO;
-import com.example.demo.mapper.QuizzMapper;
-import com.example.demo.model.Quizz;
-import com.example.demo.model.User;
-import com.example.demo.repository.QuizzRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.quizzer.DTO.QuizzInfoDTO;
+import com.example.quizzer.mapper.QuizzMapper;
+import com.example.quizzer.model.Quizz;
+import com.example.quizzer.model.User;
+import com.example.quizzer.repository.QuizzRepository;
+import com.example.quizzer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
