@@ -17,6 +17,16 @@ public class QuizzRestController {
         this.quizzService = quizzService;
     }
 
+    @GetMapping("/quizz")
+    public ResponseEntity<Object> listAllQuizz(){
+
+        try{
+            return ResponseEntity.ok().body(quizzService.getAllQuizz());
+        }catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/quizz")
     public ResponseEntity<Object> createQuizz(@RequestBody QuizzInfoDTO quizz){
         try {
@@ -29,12 +39,12 @@ public class QuizzRestController {
     }
 
     @DeleteMapping("/quizz/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteCourse(@PathVariable Long id) {
         try {
-            quizzService.deleteById(id);
-            return ResponseEntity.noContent().build();
+            QuizzInfoDTO entity = quizzService.deleteById(id);
+            return ResponseEntity.ok().body(entity);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
