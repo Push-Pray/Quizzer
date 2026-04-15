@@ -37,7 +37,7 @@
       "response": []
     },
     {
-      "name": "http://localhost:8080/api/quizz/1",
+      "name": "Delete Quizz",
       "request": {
         "method": "DELETE",
         "header": [],
@@ -58,7 +58,7 @@
       "response": []
     },
     {
-      "name": "http://localhost:8080/api/quizz",
+      "name": "Get All Quizzes",
       "request": {
         "method": "GET",
         "header": [],
@@ -72,6 +72,67 @@
           "path": [
             "api",
             "quizz"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Quizz",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"course\": \"SOF1234\",\r\n    \"name\": \"IPsdadsd\",\r\n    \"description\": \"asdsaz\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/quizz/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "quizz",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Question",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"text\": \"Where are you\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/quizz/1/question",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "quizz",
+            "1",
+            "question"
           ]
         }
       },

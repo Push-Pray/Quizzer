@@ -1,6 +1,7 @@
 package com.example.quizzer.DTO;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record QuizzInfoDTO(
 
@@ -9,7 +10,8 @@ public record QuizzInfoDTO(
         String course,
         String description,
         boolean published,
-        LocalDate creationDate
+        LocalDate creationDate,
+        List<QuestionInfoDTO> questions
 ) {
 
 }
