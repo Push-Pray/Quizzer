@@ -17,8 +17,8 @@ public class QuizzRestController {
         this.quizzService = quizzService;
     }
 
-    @PostMapping("/course")
-    public ResponseEntity<Object> createCourse(@RequestBody QuizzInfoDTO quizz){
+    @PostMapping("/quizz")
+    public ResponseEntity<Object> createQuizz(@RequestBody QuizzInfoDTO quizz){
         try {
             QuizzInfoDTO savedQuizz = quizzService.saveDTO(quizz);
             return ResponseEntity.ok(savedQuizz);
@@ -27,4 +27,15 @@ public class QuizzRestController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/quizz/{id}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+        try {
+            quizzService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

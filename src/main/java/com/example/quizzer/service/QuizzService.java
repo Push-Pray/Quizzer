@@ -15,14 +15,21 @@ public class QuizzService {
     private final QuizzMapper quizzMapper;
 
     public QuizzService(QuizzRepository quizzRepository, QuizzMapper quizzMapper) {
-
         this.quizzRepository = quizzRepository;
         this.quizzMapper = quizzMapper;
     }
 
     public QuizzInfoDTO saveDTO(QuizzInfoDTO quizzInfoDTO){
-
         Quizz newQuizz = quizzMapper.toDomain(quizzInfoDTO);
         return quizzMapper.toDTO(quizzRepository.save(newQuizz));
+    }
+
+    // handle the deletion logic
+    public void deleteById(Long id) {
+        if (quizzRepository.existsById(id)) {
+            quizzRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Quizz not found with id: " + id);
+        }
     }
 }
