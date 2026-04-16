@@ -1,5 +1,9 @@
 package com.example.quizzer.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.example.quizzer.DTO.QuestionDTO;
 import com.example.quizzer.DTO.QuestionInfoDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
@@ -7,13 +11,8 @@ import com.example.quizzer.mapper.QuestionMapper;
 import com.example.quizzer.mapper.QuizzMapper;
 import com.example.quizzer.model.Question;
 import com.example.quizzer.model.Quizz;
-import com.example.quizzer.model.User;
 import com.example.quizzer.repository.QuestionRepository;
 import com.example.quizzer.repository.QuizzRepository;
-import com.example.quizzer.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class QuizzService {
@@ -78,4 +77,40 @@ public class QuizzService {
         Quizz saveQuizz = quizzRepository.save(existingQuizz);
         return quizzMapper.toDTO(saveQuizz);
     }
+
+    public QuestionDTO deleteAnswerOption(Long questionId, int optionIndex) {
+
+    Question question = questionRepository.findById(questionId)
+            .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+
+    if (optionIndex < 0 || optionIndex >= question.getOptions().size()) {
+        throw new RuntimeException("Answer option not found with index: " + optionIndex);
+    }
+
+    question.getOptions().remove(optionIndex);
+
+    if (question.getCorrectIndex() == optionIndex) {
+        question.setCorrectIndex(-1);
+    } else if (question.getCorrectIndex() > optionIndex) {
+        question.setCorrectIndex(question.getCorrectIndex() - 1);
+    }
+
+    Question savedQuestion = questionRepository.save(question);
+    return questionMapper.toDTO(savedQuestion);
+}
+
+public QuestionDTO addAnswerOption(Long questionId, String optionText, boolean isCorrect) {
+
+    Question question = questionRepository.findById(questionId)
+            .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+
+    question.getOptions().add(optionText);
+
+    if (isCorrect) {
+        question.setCorrectIndex(question.getOptions().size() - 1);
+    }
+
+    Question savedQuestion = questionRepository.save(question);
+    return questionMapper.toDTO(savedQuestion);
+    }   
 }
