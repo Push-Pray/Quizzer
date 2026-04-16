@@ -1,6 +1,7 @@
 package com.example.quizzer.service;
 
 import com.example.quizzer.DTO.QuestionDTO;
+import com.example.quizzer.DTO.QuestionInfoDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.mapper.QuestionMapper;
 import com.example.quizzer.mapper.QuizzMapper;
@@ -32,6 +33,12 @@ public class QuizzService {
     public QuizzInfoDTO saveDTO(QuizzInfoDTO quizzInfoDTO){
         Quizz newQuizz = quizzMapper.toDomain(quizzInfoDTO);
         return quizzMapper.toDTO(quizzRepository.save(newQuizz));
+    }
+
+    public List<QuestionInfoDTO> getQuestionsByQuizzId(Long quizzId) {
+
+        List<Question> questions = questionRepository.findByQuizzId(quizzId);
+        return questionMapper.toSimpleDTOs(questions);
     }
 
     // handle the deletion logic
