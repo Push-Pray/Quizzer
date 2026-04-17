@@ -1,7 +1,7 @@
 FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY src/main/resources/Quizz/package*.json ./
-RUN npm ci
+RUN npm install
 COPY src/main/resources/Quizz/ ./
 RUN npm run build
 
