@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+node_modules
+src/main/resources/Quizz/package-lock.json
+src/main/resources/Quizz/.env
+src/main/resources/Quizz/package-lock.json
+package-lock.json
+package.json

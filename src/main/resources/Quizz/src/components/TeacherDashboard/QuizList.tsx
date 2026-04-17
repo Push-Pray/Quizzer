@@ -51,7 +51,7 @@ function QuizList(){
         fetchQuizz()
         .then(data => { 
             console.log("Data:", data);
-            setQuizzes(data._embedded?.quizzInfoDTOList || [])})
+            setQuizzes(Array.isArray(data)? data : [])})
         .catch(err => console.error(err))
      }
     
