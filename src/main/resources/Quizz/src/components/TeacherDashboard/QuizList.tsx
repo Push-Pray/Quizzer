@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import AddQuizz from "./AddQuizz";
 import { fetchQuizz } from "../../quizzapi";
 import Stack from "@mui/material/Stack";
-
+import Chip from "@mui/material/Chip";
 
 function QuizList(){
 
@@ -14,12 +14,44 @@ function QuizList(){
     const columns : GridColDef[] = [
         {field: "name", headerName: "Name"},
         {field: "description", headerName: "Descriptions"},
-        {field: "coursecode", headerName: "Course Code"},
+        {field: "course", headerName: "Course Code"},
+        {
+            field: "creationDate",
+            headerName: "Created",
+            width:160,
+            valueFormatter: (value : string) => {
+                if (!value) return "";
+
+              
+                return new Date(value).toLocaleDateString("fi-FI", {
+                    year:"numeric",
+                    month:"short",
+                    day: "numeric"
+                });
+            }
+        },
+        {
+            field:"published",
+            headerName:"Published",
+            width: 150,
+            renderCell: (params) => {
+                const isPublished = params.value;
+                return(
+                    <Chip
+                    label = {isPublished ? "Published" : "Not Published"}
+                    color = { isPublished ? "success" : "error"}
+                    size="small"
+                    />
+                )
+            }
+        }
         
     ]
      const getQuizz = () => {
         fetchQuizz()
-        .then(data => setQuizzes(data._embedded.quizz))
+        .then(data => { 
+            console.log("Data:", data);
+            setQuizzes(data._embedded?.quizzInfoDTOList || [])})
         .catch(err => console.error(err))
      }
     
@@ -46,6 +78,7 @@ function QuizList(){
     useEffect(() => {
         getQuizz();
     }, [])
+    
      return(
 
     <>
@@ -54,9 +87,9 @@ function QuizList(){
     </Stack>
     <div style={{ width: "90%", height: 500 }}>
         <DataGrid
-          rows={quizz}
+          rows={quizz || []}
           columns={columns}
-          getRowId={(row)=> row._links.self.href}
+          getRowId={(row)=> row.id}
           autoPageSize
           rowSelection={false}
           sx={{

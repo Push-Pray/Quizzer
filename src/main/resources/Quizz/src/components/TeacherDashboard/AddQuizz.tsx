@@ -19,7 +19,9 @@ export default function AddQuizz(props: AddQuizzProps){
 
         name:"",
         description:"",
-        coursecode:"", 
+        course:"", 
+        published: false,
+        creationDate: new Date().toISOString().split("T")[0]
 
     })
 
@@ -27,7 +29,9 @@ export default function AddQuizz(props: AddQuizzProps){
         setQuizz({
             name:"",
             description:"",
-            coursecode:"", 
+            course:"", 
+            published: false,
+            creationDate: new Date().toISOString().split("T")[0]
         })
         setOpen(true)
     }

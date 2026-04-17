@@ -1,9 +1,13 @@
 export type QuizzData = {
 
+    id:number;
     name:string;
     description: string;
-    coursecode: string;
-    
-}
+    course: string;
+    published: boolean;
+    creationDate: string;
 
-export type Quizz = Omit<QuizzData,"_links">
+    
+};
+
+export type Quizz = Omit<QuizzData,"id">;
