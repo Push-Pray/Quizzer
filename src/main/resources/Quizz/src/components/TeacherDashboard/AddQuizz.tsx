@@ -8,7 +8,7 @@ import QuizzForm from './QuizzForm';
 
 
 type AddQuizzProps = {
-    handleAddQuizz : (quizz: Quizz) => void;
+    handleAddQuizz : (quizz: Quizz) => Promise<boolean>;
 }
 
 export default function AddQuizz(props: AddQuizzProps){
@@ -40,10 +40,11 @@ export default function AddQuizz(props: AddQuizzProps){
 
     const handleClose = () => setOpen(false);
 
-    const handleSubmit = () => {
-
-        props.handleAddQuizz(quizz);
-        handleClose();
+    const handleSubmit = async () => {
+        const saved = await props.handleAddQuizz(quizz);
+        if (saved) {
+            handleClose();
+        }
     };
 
     return(

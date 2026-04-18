@@ -93,23 +93,26 @@ function QuizList(){
         .catch(err => console.error(err))
      }
     
-     const handleAddQuizz = (quizz: Quizz) => {
-        
-        fetch(import.meta.env.VITE_API_URL + "/quizz", {
+     const handleAddQuizz = async (quizz: Quizz) => {
+        try {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/quizz", {
             method: "POST",
             headers:{
                 "Content-Type" : "application/json"
             },
             body: JSON.stringify(quizz)
-        })
-        .then(response =>{
+        });
+
             if (!response.ok)
                 throw new Error("Error when adding quizz");
 
-            return response.json();
-        })
-        .then(()=> getQuizz())
-        .catch(err => console.error(err));
+            await response.json();
+            getQuizz();
+            return true;
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
     }
 
     const handleUpdateQuizz = (id: number, updatedQuizz: Quizz) => {
