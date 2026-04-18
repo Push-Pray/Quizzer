@@ -11,6 +11,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
 
 function QuizList(){
 
@@ -26,6 +29,12 @@ function QuizList(){
                 <Link
                     component="button"
                     underline="hover"
+                    sx={{
+                        fontWeight: 600,
+                        color: "#2156c9",
+                        textAlign: "left",
+                        textDecorationColor: "rgba(33, 86, 201, 0.35)",
+                    }}
                     onClick={(event) => {
                         event.stopPropagation();
                         navigate(`/quizz/${params.row.id}`);
@@ -61,8 +70,12 @@ function QuizList(){
                 return(
                     <Chip
                     label = {isPublished ? "Published" : "Not Published"}
-                    color = { isPublished ? "success" : "error"}
                     size="small"
+                    sx={{
+                        fontWeight: 700,
+                        color: isPublished ? "#1f7a4d" : "#9a5a00",
+                        bgcolor: isPublished ? "#d8f3e3" : "#fff1c9",
+                    }}
                     />
                 )
             }
@@ -89,8 +102,9 @@ function QuizList(){
          filterable: false,
          renderCell: (params: GridRenderCellParams<QuizzData>) =>(
          <IconButton 
-            color="error" 
+                color="error" 
             size="small" 
+                sx={{ color: "#ef4444" }}
             onClick={(e) => {
                 e.stopPropagation();
                 handleDeleteQuizz(params.row.id);
@@ -182,30 +196,103 @@ function QuizList(){
     
      return(
 
-    <>
-    <Stack direction="row" sx={{ mt: 2, mb: 2 }} >
-        <AddQuizz handleAddQuizz={handleAddQuizz}/>
-    </Stack>
-    <div style={{ width: "90%", height: 500 }}>
-        <DataGrid
-          rows={quizz || []}
-          columns={columns}
-          getRowId={(row)=> row.id}
-          autoPageSize
-          rowSelection={false}
-          sx={{
-            border: "none",
-            "& .MuiDataGrid-cell":{
-                borderBottom: "none",
-            },
-            "& .MuiDataGrid-columnHeaders":{
-                borderBottom: "none",
-            }
-          }}
-        />
-      </div>
-    
-    </>
+        <Box
+            sx={{
+                minHeight: "100vh",
+                px: { xs: 2, md: 5 },
+                py: { xs: 3, md: 5 },
+                background: "linear-gradient(180deg, #eaf5ff 0%, #f4fbff 42%, #eef7ff 100%)",
+            }}
+        >
+            <Box
+                sx={{
+                    maxWidth: 1180,
+                    mx: "auto",
+                }}
+            >
+                <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={2}
+                    sx={{
+                        mb: 3,
+                        justifyContent: "space-between",
+                        alignItems: { xs: "flex-start", sm: "center" },
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h3"
+                            sx={{
+                                m: 0,
+                                fontSize: { xs: "2rem", md: "2.4rem" },
+                                fontWeight: 700,
+                                color: "#0f172a",
+                                letterSpacing: "-0.03em",
+                            }}
+                        >
+                            Quizzes
+                        </Typography>
+                    </Box>
+                    <AddQuizz handleAddQuizz={handleAddQuizz}/>
+                </Stack>
+
+                <Paper
+                    elevation={0}
+                    sx={{
+                        borderRadius: 4,
+                        overflow: "hidden",
+                        border: "1px solid rgba(161, 197, 233, 0.55)",
+                        backgroundColor: "rgba(255, 255, 255, 0.88)",
+                        boxShadow: "0 24px 50px rgba(110, 154, 194, 0.16)",
+                        backdropFilter: "blur(10px)",
+                    }}
+                >
+                    <Box sx={{ width: "100%", minHeight: 520 }}>
+                        <DataGrid
+                            rows={quizz || []}
+                            columns={columns}
+                            getRowId={(row)=> row.id}
+                            autoPageSize
+                            rowSelection={false}
+                            disableColumnMenu
+                            sx={{
+                                border: "none",
+                                backgroundColor: "transparent",
+                                '& .MuiDataGrid-columnHeaders': {
+                                    backgroundColor: "#edf7ff",
+                                    color: "#163b77",
+                                    borderBottom: "1px solid rgba(176, 207, 236, 0.9)",
+                                    fontSize: 15,
+                                    fontWeight: 700,
+                                },
+                                '& .MuiDataGrid-columnHeaderTitle': {
+                                    fontWeight: 700,
+                                },
+                                '& .MuiDataGrid-row': {
+                                    backgroundColor: "rgba(255, 255, 255, 0.94)",
+                                    transition: "background-color 120ms ease",
+                                },
+                                '& .MuiDataGrid-row:hover': {
+                                    backgroundColor: "#f6fbff",
+                                },
+                                '& .MuiDataGrid-cell': {
+                                    borderBottom: "1px solid rgba(224, 234, 244, 0.9)",
+                                    color: "#1f2a44",
+                                    alignItems: "center",
+                                },
+                                '& .MuiDataGrid-footerContainer': {
+                                    borderTop: "1px solid rgba(224, 234, 244, 0.9)",
+                                    backgroundColor: "rgba(248, 252, 255, 0.9)",
+                                },
+                                '& .MuiDataGrid-virtualScroller': {
+                                    backgroundColor: "transparent",
+                                },
+                            }}
+                        />
+                    </Box>
+                </Paper>
+            </Box>
+        </Box>
 
 )
 }

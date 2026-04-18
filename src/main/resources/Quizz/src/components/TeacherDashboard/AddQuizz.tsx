@@ -49,7 +49,26 @@ export default function AddQuizz(props: AddQuizzProps){
 
     return(
         <>
-        <Button onClick={handleOpen}>Add Quizz</Button>
+        <Button
+            variant="contained"
+            onClick={handleOpen}
+            sx={{
+                borderRadius: 3,
+                px: 2.5,
+                py: 1.15,
+                textTransform: "none",
+                fontWeight: 700,
+                fontSize: "1rem",
+                boxShadow: "0 12px 24px rgba(0, 126, 167, 0.18)",
+                background: "linear-gradient(135deg, #2e7cf6 0%, #0ea5c6 100%)",
+                '&:hover': {
+                    background: "linear-gradient(135deg, #256ee0 0%, #0c95b2 100%)",
+                    boxShadow: "0 14px 28px rgba(0, 126, 167, 0.24)",
+                },
+            }}
+        >
+            Add New Quiz
+        </Button>
 
          <Dialog open={open} onClose={handleClose}>
 
