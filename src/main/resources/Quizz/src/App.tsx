@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path= "/" element={<QuizList />} />
-          <Route path= "/" element={<QuestionList />} />
+          <Route path= "/quizz/:id" element={<QuestionList />} />
         </Routes>
       </Router>
     </>

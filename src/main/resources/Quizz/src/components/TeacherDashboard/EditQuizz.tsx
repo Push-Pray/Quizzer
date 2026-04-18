@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import type { Quizz, QuizzData } from '../types';
 import QuizzForm from './QuizzForm';
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
 
 type EditQuizzProps = {
    quizz: QuizzData,
@@ -48,7 +48,7 @@ export default function EditQuizz(props:EditQuizzProps) {
 
     return (
         <>
-        <IconButton onClick={handleOpen}>
+        <IconButton onClick={e => {handleOpen(); e.stopPropagation();}}>
                 <EditIcon/>
             </IconButton>
 

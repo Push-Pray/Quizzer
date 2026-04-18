@@ -75,7 +75,10 @@ function QuizList(){
          <IconButton 
             color="error" 
             size="small" 
-            onClick={() => handleDeleteQuizz(params.row.id)}>
+            onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteQuizz(params.row.id);
+            }}>
         <DeleteIcon/>
          </IconButton>
          )
