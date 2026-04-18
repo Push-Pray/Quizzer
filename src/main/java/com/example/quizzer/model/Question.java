@@ -18,6 +18,7 @@ public class Question {
     private Quizz quizz;
 
     private String text;
+    private int difficulty = 1; // 0 -> easy, 1 -> normal (default), 2 -> hard
     private List<String> options = new ArrayList <>();
     private int correctIndex;
 
@@ -29,6 +30,16 @@ public class Question {
     public Long getId() {
 
         return id;
+    }
+
+    public int getDifficulty() {
+
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+
+        this.difficulty = difficulty;
     }
 
     public Quizz getQuizz() {

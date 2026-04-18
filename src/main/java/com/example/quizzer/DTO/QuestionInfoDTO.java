@@ -5,7 +5,8 @@ import java.util.List;
 public record QuestionInfoDTO(
 
         Long id,
-        String text
+        String text,
+        int difficulty
 ) {
 
 }
