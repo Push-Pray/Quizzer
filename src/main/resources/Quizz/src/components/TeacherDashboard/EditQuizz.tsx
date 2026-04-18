@@ -25,6 +25,7 @@ export default function EditQuizz(props:EditQuizzProps) {
         course: "",
         published: false,
         creationDate: "",
+        questions: []
 
     });
 
@@ -35,6 +36,7 @@ export default function EditQuizz(props:EditQuizzProps) {
             course: props.quizz.course,
             published: props.quizz.published,
             creationDate: props.quizz.creationDate,
+            questions: props.quizz.questions
         });
         setOpen(true)
     };
