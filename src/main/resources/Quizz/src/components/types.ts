@@ -1,5 +1,10 @@
 export type QuestionDifficulty = "easy" | "medium" | "hard";
 
+export type OptionData = {
+    text: string;
+    isCorrect: boolean;
+}
+
 export type QuizzData = {
 
     id:number;

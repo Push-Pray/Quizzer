@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddQuestion from "./AddQuestion";
 import Chip from "@mui/material/Chip";
 import { fetchQuizz } from "../../quizzapi";
+import Link from "@mui/material/Link";
 
 export default function QuestionList() {
 
@@ -18,7 +19,23 @@ export default function QuestionList() {
     const [questions, setQuestions] = useState<QuestionInfoData[]>([]);
 
     const columns : GridColDef<QuestionInfoData>[] =[
-        { field: "text", headerName: "Question", flex: 1 },
+        {
+          field: "text",
+          headerName: "Question",
+          flex: 1,
+          renderCell: (params) => (
+            <Link
+              component="button"
+              underline="hover"
+              onClick={(event) => {
+                event.stopPropagation();
+                navigate(`/quizz/${quizId}/question/${params.row.id}`);
+              }}
+            >
+              {params.value}
+            </Link>
+          )
+        },
 
         {
             field: "difficulty",
