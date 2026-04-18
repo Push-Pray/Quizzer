@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 type AddQuestionProps = {
   quizId: number;
-  onAdded: () => void
+  onAdded: () => Promise<boolean>
 };
 
 export default function AddQuestion({ quizId, onAdded }: AddQuestionProps) {
@@ -34,7 +34,7 @@ export default function AddQuestion({ quizId, onAdded }: AddQuestionProps) {
 
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
 
     const difficultyMap: Record<string, number> = {
       "easy": 0,
@@ -56,9 +56,11 @@ export default function AddQuestion({ quizId, onAdded }: AddQuestionProps) {
       if (!res.ok) throw new Error("Error adding question");
       return res.json();
     })
-    .then(() => {
-      onAdded();
-      handleClose();
+    .then(async () => {
+      const saved = await onAdded();
+      if (saved) {
+        handleClose();
+      }
     })
     .catch(err => console.error(err));
   };

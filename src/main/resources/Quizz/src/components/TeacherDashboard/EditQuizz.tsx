@@ -10,7 +10,7 @@ import QuizzForm from './QuizzForm';
 
 type EditQuizzProps = {
    quizz: QuizzData,
-   handleUpdate: (id: number, updatedQuizz: Quizz) => void
+    handleUpdate: (id: number, updatedQuizz: Quizz) => Promise<boolean>
 }
 
 export default function EditQuizz(props:EditQuizzProps) {
@@ -43,9 +43,11 @@ export default function EditQuizz(props:EditQuizzProps) {
 
     const handleClose = () => setOpen(false);
 
-    const handleSubmit = () => {
-        props.handleUpdate(props.quizz.id,quizz);
-        handleClose();
+    const handleSubmit = async () => {
+        const saved = await props.handleUpdate(props.quizz.id,quizz);
+        if (saved) {
+            handleClose();
+        }
     };
 
     return (

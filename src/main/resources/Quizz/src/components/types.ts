@@ -1,3 +1,5 @@
+export type QuestionDifficulty = "easy" | "medium" | "hard";
+
 export type QuizzData = {
 
     id:number;
@@ -6,7 +8,7 @@ export type QuizzData = {
     course: string;
     published: boolean;
     creationDate: string;
-    questions: string[];
+    questions: QuestionInfoData[];
 
 
 };
@@ -30,6 +32,6 @@ export type QuestionInfoData = {
 
     id: number;
     text: string;
-    difficulty: "easy" | "medium" | "hard";
+    difficulty: QuestionDifficulty;
 }
 export type QuestionInfo = Omit<QuestionInfoData,"id">;

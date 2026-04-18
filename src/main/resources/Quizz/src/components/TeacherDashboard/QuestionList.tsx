@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddQuestion from "./AddQuestion";
 import Chip from "@mui/material/Chip";
+import { fetchQuizz } from "../../quizzapi";
 
 export default function QuestionList() {
 
@@ -57,15 +58,18 @@ export default function QuestionList() {
         }
 ];
     
-    const getQuestions = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/quizz/${quizId}/question`)
-    .then(res => {
-      if (!res.ok) throw new Error("Error fetching questions");
-      return res.json();
-    })
-    .then(data => setQuestions(data))
-    .catch(err => console.error(err));
-};
+    const getQuestions = async () => {
+      try {
+        const quizzes = await fetchQuizz();
+        const selectedQuiz = quizzes.find((quiz) => quiz.id === quizId);
+        setQuestions(selectedQuiz?.questions ?? []);
+        return true;
+      } catch (err) {
+        console.error(err);
+        setQuestions([]);
+        return false;
+      }
+    };
 
 const handleDeleteQuestion = (questionId: number) => {
   if (window.confirm("Delete this question?")) {
@@ -81,13 +85,7 @@ const handleDeleteQuestion = (questionId: number) => {
 };
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/quizz/${quizId}/question`)
-        .then(res => {
-            if (!res.ok) throw new Error("Error fetching questions");
-            return res.json();
-        })
-        .then(data => setQuestions(data))
-        .catch(err => console.error(err));
+      getQuestions();
     }, [quizId]);
     return (
   <>

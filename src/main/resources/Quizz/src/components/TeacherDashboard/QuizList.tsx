@@ -10,6 +10,7 @@ import EditQuizz from "./EditQuizz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 function QuizList(){
 
@@ -18,7 +19,22 @@ function QuizList(){
     const navigate = useNavigate();
 
     const columns : GridColDef<QuizzData>[] = [
-        {field: "name", headerName: "Name"},
+        {
+            field: "name",
+            headerName: "Name",
+            renderCell: (params) => (
+                <Link
+                    component="button"
+                    underline="hover"
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        navigate(`/quizz/${params.row.id}`);
+                    }}
+                >
+                    {params.value}
+                </Link>
+            )
+        },
         {field: "description", headerName: "Description"},
         {field: "course", headerName: "Course Code"},
         {
@@ -115,23 +131,35 @@ function QuizList(){
         }
     }
 
-    const handleUpdateQuizz = (id: number, updatedQuizz: Quizz) => {
-        
-        fetch(`${import.meta.env.VITE_API_URL}/quizz/${id}`, {
+    const handleUpdateQuizz = async (id: number, updatedQuizz: Quizz) => {
+        const payload = {
+            name: updatedQuizz.name,
+            description: updatedQuizz.description,
+            course: updatedQuizz.course,
+            published: updatedQuizz.published,
+            creationDate: updatedQuizz.creationDate,
+            questions: []
+        };
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/quizz/${id}`, {
             method: "PUT",
             headers:{
                 "Content-Type" : "application/json"
             },
-            body: JSON.stringify(updatedQuizz)
-        })
-        .then(response =>{
+            body: JSON.stringify(payload)
+        });
+
             if (!response.ok)
                 throw new Error("Error when updating quizz");
 
-            return response.json();
-        })
-        .then(()=> getQuizz())
-        .catch(err => console.error(err));
+            await response.json();
+            getQuizz();
+            return true;
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
     }
 
    const handleDeleteQuizz = (id: number) => {
@@ -164,7 +192,6 @@ function QuizList(){
           columns={columns}
           getRowId={(row)=> row.id}
           autoPageSize
-          onRowClick={(params) => navigate (`/quizz/${params.row.id}`)}
           rowSelection={false}
           sx={{
             border: "none",
