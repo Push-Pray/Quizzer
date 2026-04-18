@@ -8,7 +8,10 @@ export const fetchQuizz= () => {
   })
 }
 
-export const deleteQuizz = (url: string) => {
+export const deleteQuizz = (id: number) => {
+  const url = `${import.meta.env.VITE_API_URL}/quizz/${id}`;
+  console.log("DELETE URL:", url);
+
   return fetch(url, {
     method: "DELETE"
   })
@@ -16,6 +19,8 @@ export const deleteQuizz = (url: string) => {
     if (!response.ok)
       throw new Error("Error when deleting quizz");
 
+    if (response.status === 204) return;
+
     return response.json();
-  })
-}
+  });
+};

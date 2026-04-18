@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
 import type  { QuizzData, Quizz} from "../../components/types"
-import type { GridColDef } from '@mui/x-data-grid';
+import type { GridColDef,  GridRenderCellParams } from '@mui/x-data-grid';
 import { DataGrid } from "@mui/x-data-grid";
 import AddQuizz from "./AddQuizz";
-import { fetchQuizz } from "../../quizzapi";
+import { fetchQuizz, deleteQuizz } from "../../quizzapi";
 import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
+import EditQuizz from "./EditQuizz";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 function QuizList(){
 
     const [quizz,setQuizzes]= useState<QuizzData[]>([]);
 
-    const columns : GridColDef[] = [
+    const navigate = useNavigate();
+
+    const columns : GridColDef<QuizzData>[] = [
         {field: "name", headerName: "Name"},
-        {field: "description", headerName: "Descriptions"},
+        {field: "description", headerName: "Description"},
         {field: "course", headerName: "Course Code"},
         {
             field: "creationDate",
             headerName: "Created",
-            width:160,
+            width:145,
             valueFormatter: (value : string) => {
                 if (!value) return "";
 
@@ -33,7 +39,7 @@ function QuizList(){
         {
             field:"published",
             headerName:"Published",
-            width: 150,
+            width: 135,
             renderCell: (params) => {
                 const isPublished = params.value;
                 return(
@@ -44,13 +50,42 @@ function QuizList(){
                     />
                 )
             }
-        }
+        },
+        {
+            field: "edit",
+            headerName: "",
+            width: 60,
+            sortable: false,
+            filterable: false,
+            renderCell: (params)=>(
+                <EditQuizz
+                
+                quizz={params.row}
+                handleUpdate={handleUpdateQuizz}
+                />
+            )
+        },
+        {
+         field: "delete",
+         headerName: "",
+         width:60,
+         sortable: false,
+         filterable: false,
+         renderCell: (params: GridRenderCellParams<QuizzData>) =>(
+         <IconButton 
+            color="error" 
+            size="small" 
+            onClick={() => handleDeleteQuizz(params.row.id)}>
+        <DeleteIcon/>
+         </IconButton>
+         )
+     }, 
+        
         
     ]
      const getQuizz = () => {
         fetchQuizz()
         .then(data => { 
-            console.log("Data:", data);
             setQuizzes(Array.isArray(data)? data : [])})
         .catch(err => console.error(err))
      }
@@ -74,6 +109,38 @@ function QuizList(){
         .catch(err => console.error(err));
     }
 
+    const handleUpdateQuizz = (id: number, updatedQuizz: Quizz) => {
+        
+        fetch(`${import.meta.env.VITE_API_URL}/quizz/${id}`, {
+            method: "PUT",
+            headers:{
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(updatedQuizz)
+        })
+        .then(response =>{
+            if (!response.ok)
+                throw new Error("Error when updating quizz");
+
+            return response.json();
+        })
+        .then(()=> getQuizz())
+        .catch(err => console.error(err));
+    }
+
+   const handleDeleteQuizz = (id: number) => {
+    if (window.confirm("Are you sure?")) {
+        deleteQuizz(id)
+        .then(() => {
+        getQuizz();
+        alert("Deleted successfully");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Delete failed");
+      });
+  }
+};
 
     useEffect(() => {
         getQuizz();
@@ -91,6 +158,7 @@ function QuizList(){
           columns={columns}
           getRowId={(row)=> row.id}
           autoPageSize
+          onRowClick={(params) => navigate (`/quizz/${params.row.id}`)}
           rowSelection={false}
           sx={{
             border: "none",
