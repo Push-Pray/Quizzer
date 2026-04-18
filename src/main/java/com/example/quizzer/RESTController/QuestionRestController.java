@@ -1,18 +1,14 @@
 package com.example.quizzer.RESTController;
 
+import com.example.quizzer.DTO.OptionDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.quizzer.DTO.QuestionDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.service.QuizzService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -36,16 +32,27 @@ public class QuestionRestController {
     }
 
     @PostMapping("/question/{questionId}/option")
-public ResponseEntity<Object> addAnswerOption(@PathVariable Long questionId,
-                                              @RequestParam String text,
-                                              @RequestParam boolean correct) {
-    try {
-        QuestionDTO updatedQuestion = quizzService.addAnswerOption(questionId, text, correct);
-        return ResponseEntity.ok(updatedQuestion);
-    } catch (RuntimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<Object> addAnswerOption(@PathVariable Long questionId,
+                                                  @RequestParam String text,
+                                                  @RequestParam boolean correct) {
+        try {
+            QuestionDTO updatedQuestion = quizzService.addAnswerOption(questionId, text, correct);
+            return ResponseEntity.ok(updatedQuestion);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-}
+
+    @GetMapping("/question/{questionId}/options")
+    public ResponseEntity<Object> getAlloptions(@PathVariable Long questionId) {
+        try {
+
+            List<OptionDTO> options = quizzService.getAnswerOptionsWithStatus(questionId);
+            return ResponseEntity.ok(options);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @DeleteMapping("/question/{questionId}/option/{optionIndex}")
     public ResponseEntity<Object> deleteAnswerOption(@PathVariable Long questionId, @PathVariable int optionIndex) {

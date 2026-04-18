@@ -2,6 +2,7 @@ package com.example.quizzer.service;
 
 import java.util.List;
 
+import com.example.quizzer.DTO.OptionDTO;
 import org.springframework.stereotype.Service;
 
 import com.example.quizzer.DTO.QuestionDTO;
@@ -112,5 +113,12 @@ public QuestionDTO addAnswerOption(Long questionId, String optionText, boolean i
 
     Question savedQuestion = questionRepository.save(question);
     return questionMapper.toDTO(savedQuestion);
-    }   
+    }
+
+    public List<OptionDTO> getAnswerOptionsWithStatus(Long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+
+        return questionMapper.toOptionDTOs(question);
+    }
 }
