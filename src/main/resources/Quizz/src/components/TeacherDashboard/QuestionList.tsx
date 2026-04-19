@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddQuestion from "./AddQuestion";
 import Chip from "@mui/material/Chip";
 import { fetchQuizz } from "../../quizzapi";
+import { deleteQuestion } from "../../questionapi";
 import Link from "@mui/material/Link";
 
 export default function QuestionList() {
@@ -88,16 +89,19 @@ export default function QuestionList() {
       }
     };
 
-const handleDeleteQuestion = (questionId: number) => {
-  if (window.confirm("Delete this question?")) {
-    fetch(`${import.meta.env.VITE_API_URL}/quizz/${quizId}/question/${questionId}`, {
-      method: "DELETE"
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Error deleting question");
-      })
-      .then(() => getQuestions())
-      .catch(err => console.error(err));
+const handleDeleteQuestion = async (questionId: number) => {
+  if (!window.confirm("Delete this question?")) {
+    return;
+  }
+
+  try {
+    await deleteQuestion(quizId, questionId);
+    setQuestions((currentQuestions) =>
+      currentQuestions.filter((question) => question.id !== questionId)
+    );
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed");
   }
 };
 
@@ -118,6 +122,7 @@ const handleDeleteQuestion = (questionId: number) => {
         columns={columns}
         getRowId={(row) => row.id}
         autoPageSize
+        disableRowSelectionOnClick
       />
     </div>
     </>
