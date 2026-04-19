@@ -14,6 +14,7 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import logo from "../../assets/LogoQuiz.png";
 
 function QuizList(){
 
@@ -25,6 +26,8 @@ function QuizList(){
         {
             field: "name",
             headerName: "Name",
+            flex: 1,
+            minWidth: 180,
             renderCell: (params) => (
                 <Link
                     component="button"
@@ -44,8 +47,18 @@ function QuizList(){
                 </Link>
             )
         },
-        {field: "description", headerName: "Description"},
-        {field: "course", headerName: "Course Code"},
+        {
+            field: "description",
+            headerName: "Description",
+            flex: 1.35,
+            minWidth: 230,
+        },
+        {
+            field: "course",
+            headerName: "Course Code",
+            flex: 0.95,
+            minWidth: 165,
+        },
         {
             field: "creationDate",
             headerName: "Created",
@@ -64,7 +77,7 @@ function QuizList(){
         {
             field:"published",
             headerName:"Published",
-            width: 135,
+            width: 150,
             renderCell: (params) => {
                 const isPublished = params.value;
                 return(
@@ -83,7 +96,7 @@ function QuizList(){
         {
             field: "edit",
             headerName: "",
-            width: 60,
+            width: 72,
             sortable: false,
             filterable: false,
             renderCell: (params)=>(
@@ -97,7 +110,7 @@ function QuizList(){
         {
          field: "delete",
          headerName: "",
-         width:60,
+         width:72,
          sortable: false,
          filterable: false,
          renderCell: (params: GridRenderCellParams<QuizzData>) =>(
@@ -219,7 +232,30 @@ function QuizList(){
                         alignItems: { xs: "flex-start", sm: "center" },
                     }}
                 >
-                    <Box>
+                    <Stack
+                        direction="row"
+                        spacing={2}
+                        sx={{
+                            alignItems: "center",
+                        }}
+                    >
+                        <Box
+                            component="img"
+                            src={logo}
+                            alt="Quizzer logo"
+                            sx={{
+                                width: { xs: 68, md: 84 },
+                                height: { xs: 68, md: 84 },
+                                objectFit: "contain",
+                                borderRadius: 3,
+                                backgroundColor: "rgba(255,255,255,0.75)",
+                                boxShadow: "0 14px 28px rgba(110, 154, 194, 0.18)",
+                                p: 1,
+                                flexShrink: 0,
+                            }}
+                        />
+
+                        <Box>
                         <Typography
                             variant="h3"
                             sx={{
@@ -232,7 +268,8 @@ function QuizList(){
                         >
                             Quizzes
                         </Typography>
-                    </Box>
+                        </Box>
+                    </Stack>
                     <AddQuizz handleAddQuizz={handleAddQuizz}/>
                 </Stack>
 

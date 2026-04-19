@@ -7,15 +7,17 @@ function App() {
   
 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path= "/" element={<QuizList />} />
-          <Route path= "/quizz/:id" element={<QuestionList />} />
-          <Route path= "/quizz/:quizId/question/:questionId" element={<OptionList />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <div className="app-shell">
+        <main className="app-content">
+          <Routes>
+            <Route path= "/" element={<QuizList />} />
+            <Route path= "/quizz/:id" element={<QuestionList />} />
+            <Route path= "/quizz/:quizId/question/:questionId" element={<OptionList />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   )
 }
 
