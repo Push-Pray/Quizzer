@@ -81,38 +81,38 @@ public class QuizzService {
 
     public QuestionDTO deleteAnswerOption(Long questionId, int optionIndex) {
 
-    Question question = questionRepository.findById(questionId)
-            .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
 
-    if (optionIndex < 0 || optionIndex >= question.getOptions().size()) {
-        throw new RuntimeException("Answer option not found with index: " + optionIndex);
+        if (optionIndex < 0 || optionIndex >= question.getOptions().size()) {
+            throw new RuntimeException("Answer option not found with index: " + optionIndex);
+        }
+
+        question.getOptions().remove(optionIndex);
+
+        if (question.getCorrectIndex() == optionIndex) {
+            question.setCorrectIndex(-1);
+        } else if (question.getCorrectIndex() > optionIndex) {
+            question.setCorrectIndex(question.getCorrectIndex() - 1);
+        }
+
+        Question savedQuestion = questionRepository.save(question);
+        return questionMapper.toDTO(savedQuestion);
     }
 
-    question.getOptions().remove(optionIndex);
+    public QuestionDTO addAnswerOption(Long questionId, String optionText, boolean isCorrect) {
 
-    if (question.getCorrectIndex() == optionIndex) {
-        question.setCorrectIndex(-1);
-    } else if (question.getCorrectIndex() > optionIndex) {
-        question.setCorrectIndex(question.getCorrectIndex() - 1);
-    }
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
 
-    Question savedQuestion = questionRepository.save(question);
-    return questionMapper.toDTO(savedQuestion);
-}
+        question.getOptions().add(optionText);
 
-public QuestionDTO addAnswerOption(Long questionId, String optionText, boolean isCorrect) {
+        if (isCorrect) {
+            question.setCorrectIndex(question.getOptions().size() - 1);
+        }
 
-    Question question = questionRepository.findById(questionId)
-            .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
-
-    question.getOptions().add(optionText);
-
-    if (isCorrect) {
-        question.setCorrectIndex(question.getOptions().size() - 1);
-    }
-
-    Question savedQuestion = questionRepository.save(question);
-    return questionMapper.toDTO(savedQuestion);
+        Question savedQuestion = questionRepository.save(question);
+        return questionMapper.toDTO(savedQuestion);
     }
 
     public List<OptionDTO> getAnswerOptionsWithStatus(Long questionId) {
@@ -120,5 +120,20 @@ public QuestionDTO addAnswerOption(Long questionId, String optionText, boolean i
                 .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
 
         return questionMapper.toOptionDTOs(question);
+    }
+
+    public QuizzInfoDTO deleteQuestion(Long quizzId, Long questionId){
+
+        Quizz quizz = quizzRepository.findById(quizzId)
+                .orElseThrow(() -> new RuntimeException("Quizz not found with id: " + quizzId));
+
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+
+        quizz.getQuestions().remove(question);
+
+        questionRepository.delete(question);
+
+        return quizzMapper.toDTO(quizzRepository.save(quizz));
     }
 }

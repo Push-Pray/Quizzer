@@ -62,4 +62,17 @@ public class QuizzRestController {
         }
     }
 
+    @DeleteMapping("/quizz/{quizzId}/question/{questionId}")
+    public ResponseEntity<Object> deleteQuestion(@PathVariable Long quizzId, @PathVariable Long questionId){
+
+        try {
+
+            QuizzInfoDTO entity = quizzService.deleteQuestion(quizzId, questionId);
+            return ResponseEntity.ok().body(entity);
+        }catch (RuntimeException e){
+
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
