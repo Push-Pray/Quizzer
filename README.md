@@ -16,6 +16,8 @@ The very first team project on the Software Development Project 1 course.
 # Scrum Project
 - [Github Project](https://github.com/orgs/Push-Pray/projects/4)
 
+# Flinga Board
+- [Flinga](https://edu.flinga.fi/s/EFPWNW2)
 
 # Quizzer - Developer Guide
 
