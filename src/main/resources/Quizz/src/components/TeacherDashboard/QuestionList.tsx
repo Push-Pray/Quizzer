@@ -106,6 +106,7 @@ const handleDeleteQuestion = async (questionId: number) => {
 };
 
     useEffect(() => {
+      document.title = "Questions";
       getQuestions();
     }, [quizId]);
     return (

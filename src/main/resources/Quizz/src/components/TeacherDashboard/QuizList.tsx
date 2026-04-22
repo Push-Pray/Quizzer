@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import logo from "../../assets/LogoQuiz.png";
+import Button from "@mui/material/Button";
 
 function QuizList(){
 
@@ -58,6 +59,12 @@ function QuizList(){
             headerName: "Course Code",
             flex: 0.95,
             minWidth: 165,
+        },
+        {
+            field: "category",
+            headerName: "Category",
+            flex: 1,
+            valueGetter: (_, row) => row.categoryID?.name || "—"
         },
         {
             field: "creationDate",
@@ -204,6 +211,7 @@ function QuizList(){
 };
 
     useEffect(() => {
+        document.title = "Quizzes";
         getQuizz();
     }, [])
     
@@ -270,7 +278,20 @@ function QuizList(){
                         </Typography>
                         </Box>
                     </Stack>
+                    <Stack direction="row" spacing={1}>
+                     <Button
+                        variant="contained"
+                        sx={{
+                        backgroundColor: "#2156c9",
+                        textTransform: "none",
+                        fontWeight: 600
+                        }}
+                        onClick={() => navigate("/categories")}>
+                        Categories
+                    </Button>
+
                     <AddQuizz handleAddQuizz={handleAddQuizz}/>
+                    </Stack>
                 </Stack>
 
                 <Paper

@@ -14,6 +14,7 @@ export type QuizzData = {
     published: boolean;
     creationDate: string;
     questions: QuestionInfoData[];
+    categoryID?:{ id: number; name: string } ;
 
 
 };
