@@ -23,4 +23,9 @@ public class CategoryRestController {
         Category savedCategory = categoryService.addCategory(category);
         return ResponseEntity.ok(savedCategory);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return ResponseEntity.ok(categoryService.getAllCategories());
+    }
 }
