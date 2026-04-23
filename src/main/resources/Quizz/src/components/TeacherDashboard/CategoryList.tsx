@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
+import DashboardHeader from "./DashboardHeader";
 
 interface Category {
   id: number;
@@ -40,14 +41,12 @@ function CategoryList() {
   <Box
     sx={{
       minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      pt: 6,
-      background: "linear-gradient(180deg, #eaf5ff 0%, #f4fbff 42%, #eef7ff 100%)",
+      background: "linear-gradient(180deg, #edf6ff 0%, #eef8ff 36%, #f5fbff 100%)",
     }}
   >
-    <Box sx={{ width: "100%", maxWidth: 1180 }}>
+    <DashboardHeader activePage="categories" />
+
+    <Box sx={{ width: "100%", maxWidth: 1180, mx: "auto", px: { xs: 2, md: 4 }, py: { xs: 4, md: 6 } }}>
       
       <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
         <Button onClick={() => navigate("/")}>Back</Button>
