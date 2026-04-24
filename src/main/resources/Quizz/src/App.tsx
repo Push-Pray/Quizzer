@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import QuizList from './components/TeacherDashboard/QuizList'
 import QuestionList from './components/TeacherDashboard/QuestionList'
 import OptionList from './components/TeacherDashboard/OptionList';
+import CategoryList from './components/TeacherDashboard/CategoryList';
+
 function App() {
   
 
@@ -14,6 +16,7 @@ function App() {
             <Route path= "/" element={<QuizList />} />
             <Route path= "/quizz/:id" element={<QuestionList />} />
             <Route path= "/quizz/:quizId/question/:questionId" element={<OptionList />} />
+            <Route path= "/categories" element={<CategoryList />} />
           </Routes>
         </main>
       </div>

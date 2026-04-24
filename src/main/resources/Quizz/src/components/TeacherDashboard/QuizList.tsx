@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import logo from "../../assets/LogoQuiz.png";
+import DashboardHeader from "./DashboardHeader";
 
 function QuizList(){
 
@@ -58,6 +59,12 @@ function QuizList(){
             headerName: "Course Code",
             flex: 0.95,
             minWidth: 165,
+        },
+        {
+            field: "category",
+            headerName: "Category",
+            flex: 1,
+            valueGetter: (_, row) => row.categoryID?.name || "—"
         },
         {
             field: "creationDate",
@@ -204,6 +211,7 @@ function QuizList(){
 };
 
     useEffect(() => {
+        document.title = "Quizzes";
         getQuizz();
     }, [])
     
@@ -212,15 +220,17 @@ function QuizList(){
         <Box
             sx={{
                 minHeight: "100vh",
-                px: { xs: 2, md: 5 },
-                py: { xs: 3, md: 5 },
-                background: "linear-gradient(180deg, #eaf5ff 0%, #f4fbff 42%, #eef7ff 100%)",
+                background: "linear-gradient(180deg, #edf6ff 0%, #eef8ff 36%, #f5fbff 100%)",
             }}
         >
+            <DashboardHeader activePage="quizzes" />
+
             <Box
                 sx={{
                     maxWidth: 1180,
                     mx: "auto",
+                    px: { xs: 2, md: 4 },
+                    py: { xs: 4, md: 6 },
                 }}
             >
                 <Stack
@@ -247,10 +257,6 @@ function QuizList(){
                                 width: { xs: 68, md: 84 },
                                 height: { xs: 68, md: 84 },
                                 objectFit: "contain",
-                                borderRadius: 3,
-                                backgroundColor: "rgba(255,255,255,0.75)",
-                                boxShadow: "0 14px 28px rgba(110, 154, 194, 0.18)",
-                                p: 1,
                                 flexShrink: 0,
                             }}
                         />
@@ -270,7 +276,9 @@ function QuizList(){
                         </Typography>
                         </Box>
                     </Stack>
+                    <Stack direction="row" spacing={1}>
                     <AddQuizz handleAddQuizz={handleAddQuizz}/>
+                    </Stack>
                 </Stack>
 
                 <Paper
@@ -278,10 +286,9 @@ function QuizList(){
                     sx={{
                         borderRadius: 4,
                         overflow: "hidden",
-                        border: "1px solid rgba(161, 197, 233, 0.55)",
-                        backgroundColor: "rgba(255, 255, 255, 0.88)",
-                        boxShadow: "0 24px 50px rgba(110, 154, 194, 0.16)",
-                        backdropFilter: "blur(10px)",
+                        border: "1px solid rgba(205, 226, 245, 0.9)",
+                        backgroundColor: "#ffffff",
+                        boxShadow: "0 14px 32px rgba(134, 175, 214, 0.18)",
                     }}
                 >
                     <Box sx={{ width: "100%", minHeight: 520 }}>
@@ -296,9 +303,9 @@ function QuizList(){
                                 border: "none",
                                 backgroundColor: "transparent",
                                 '& .MuiDataGrid-columnHeaders': {
-                                    backgroundColor: "#edf7ff",
+                                    backgroundColor: "#f3fbff",
                                     color: "#163b77",
-                                    borderBottom: "1px solid rgba(176, 207, 236, 0.9)",
+                                    borderBottom: "1px solid rgba(205, 226, 245, 0.95)",
                                     fontSize: 15,
                                     fontWeight: 700,
                                 },
@@ -310,7 +317,7 @@ function QuizList(){
                                     transition: "background-color 120ms ease",
                                 },
                                 '& .MuiDataGrid-row:hover': {
-                                    backgroundColor: "#f6fbff",
+                                    backgroundColor: "#f8fcff",
                                 },
                                 '& .MuiDataGrid-cell': {
                                     borderBottom: "1px solid rgba(224, 234, 244, 0.9)",
@@ -319,7 +326,7 @@ function QuizList(){
                                 },
                                 '& .MuiDataGrid-footerContainer': {
                                     borderTop: "1px solid rgba(224, 234, 244, 0.9)",
-                                    backgroundColor: "rgba(248, 252, 255, 0.9)",
+                                    backgroundColor: "#ffffff",
                                 },
                                 '& .MuiDataGrid-virtualScroller': {
                                     backgroundColor: "transparent",
