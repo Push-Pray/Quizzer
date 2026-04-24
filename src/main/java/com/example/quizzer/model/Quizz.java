@@ -23,6 +23,7 @@ public class Quizz {
     private String description;
     private boolean published = false;
     private final LocalDate creationDate = LocalDate.now();
+    private String category;
 
     public Quizz() {
 
@@ -31,6 +32,16 @@ public class Quizz {
     public Quizz(String name) {
 
         this.name = name;
+    }
+
+    public String getCategory() {
+
+        return category;
+    }
+
+    public void setCategory(String category) {
+
+        this.category = category;
     }
 
     public Long getId() {
