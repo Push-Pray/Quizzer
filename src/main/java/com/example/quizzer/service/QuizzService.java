@@ -75,6 +75,8 @@ public class QuizzService {
         existingQuizz.setDescription(updatedQuizzDTO.description());
         existingQuizz.setPublished(updatedQuizzDTO.published());
 
+        existingQuizz.setCategory(updatedQuizzDTO.category());
+
         Quizz saveQuizz = quizzRepository.save(existingQuizz);
         return quizzMapper.toDTO(saveQuizz);
     }
