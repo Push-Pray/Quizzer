@@ -57,6 +57,10 @@ public class QuizzService {
         return quizzMapper.toDTOs(quizzRepository.findAll());
     }
 
+    public List<QuizzInfoDTO> getPublishedQuizz(){
+        return quizzMapper.toDTOs(quizzRepository.findByPublishedTrue());
+    }
+
     public QuizzInfoDTO addQuestion(Long id, QuestionDTO question){
 
         Quizz quizz = quizzRepository.findById(id).orElseThrow();
