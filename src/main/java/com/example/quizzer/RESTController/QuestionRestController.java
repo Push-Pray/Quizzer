@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.quizzer.DTO.QuestionDTO;
+import com.example.quizzer.DTO.QuestionInfoDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.service.QuizzService;
 
@@ -49,6 +50,16 @@ public class QuestionRestController {
 
             List<OptionDTO> options = quizzService.getAnswerOptionsWithStatus(questionId);
             return ResponseEntity.ok(options);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/quizz/{id}/question")
+    public ResponseEntity<Object> getQuestionsForQuizz(@PathVariable Long id) {
+        try {
+            List<QuestionInfoDTO> questions = quizzService.getQuestionsByQuizzId(id);
+            return ResponseEntity.ok(questions);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
