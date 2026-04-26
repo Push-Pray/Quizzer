@@ -1,3 +1,5 @@
+import type { QuestionInfoData } from "./components/types";
+
 export const fetchQuestion = (quizId: number) => {
   return fetch(`${import.meta.env.VITE_API_URL}/quizz/${quizId}/question`)
   .then(response => {
@@ -6,6 +8,7 @@ export const fetchQuestion = (quizId: number) => {
 
     return response.json();
   })
+  .then((data) => Array.isArray(data) ? data as QuestionInfoData[] : []);
 }
 
 export const deleteQuestion = (quizId: number, questionId: number) => {

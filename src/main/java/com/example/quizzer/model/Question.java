@@ -1,11 +1,13 @@
 package com.example.quizzer.model;
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Question {
@@ -18,12 +20,14 @@ public class Question {
     private Quizz quizz;
 
     private String text;
-    private int difficulty = 1; // 0 -> easy, 1 -> normal (default), 2 -> hard
-    private List<String> options = new ArrayList <>();
+    private int difficulty = 1;
+    private List<String> options = new ArrayList<>();
     private int correctIndex;
 
-    public Question(){
+    private int correctAnswers = 0;
+    private int wrongAnswers = 0;
 
+    public Question() {
 
     }
 
@@ -62,12 +66,12 @@ public class Question {
         this.text = text;
     }
 
-    public List <String> getOptions() {
+    public List<String> getOptions() {
 
         return options;
     }
 
-    public void setOptions(List <String> options) {
+    public void setOptions(List<String> options) {
 
         this.options = options;
     }
@@ -80,5 +84,25 @@ public class Question {
     public void setCorrectIndex(int correctIndex) {
 
         this.correctIndex = correctIndex;
+    }
+
+    public int getCorrectAnswers() {
+
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers(int correctAnswers) {
+
+        this.correctAnswers = correctAnswers;
+    }
+
+    public int getWrongAnswers() {
+
+        return wrongAnswers;
+    }
+
+    public void setWrongAnswers(int wrongAnswers) {
+
+        this.wrongAnswers = wrongAnswers;
     }
 }

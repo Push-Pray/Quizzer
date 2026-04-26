@@ -2,6 +2,36 @@
   min-height: 100vh;
 }
 
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 24px;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.nav-link:hover {
+  background: #f5f5f5;
+}
+
+.nav-link.active {
+  color: #0d47a1;
+  background: #e8f0fe;
+}
+
 .app-content {
   margin-top: 0;
+  padding: 20px;
 }

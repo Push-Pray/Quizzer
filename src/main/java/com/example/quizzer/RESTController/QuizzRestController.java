@@ -31,6 +31,15 @@ public class QuizzRestController {
         }
     }
 
+    @GetMapping("/quizz/published")
+    public ResponseEntity<Object> listPublishedQuizz(){
+        try {
+            return ResponseEntity.ok().body(quizzService.getPublishedQuizz());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/quizz")
     public ResponseEntity<Object> createQuizz(@RequestBody QuizzInfoDTO quizz){
         try {

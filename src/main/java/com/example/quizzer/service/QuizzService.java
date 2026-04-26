@@ -1,12 +1,15 @@
 package com.example.quizzer.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.example.quizzer.DTO.OptionDTO;
 import org.springframework.stereotype.Service;
 
+import com.example.quizzer.DTO.AnswerResultDTO;
+import com.example.quizzer.DTO.OptionDTO;
 import com.example.quizzer.DTO.QuestionDTO;
 import com.example.quizzer.DTO.QuestionInfoDTO;
+import com.example.quizzer.DTO.QuestionResultDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.mapper.QuestionMapper;
 import com.example.quizzer.mapper.QuizzMapper;
@@ -41,7 +44,6 @@ public class QuizzService {
         return questionMapper.toSimpleDTOs(questions);
     }
 
-    // handle the deletion logic
     public QuizzInfoDTO deleteById(Long id) {
         if (quizzRepository.existsById(id)) {
             QuizzInfoDTO entity = quizzMapper.toDTO(quizzRepository.findById(id).orElseThrow());
@@ -52,9 +54,13 @@ public class QuizzService {
         }
     }
 
-    public List <QuizzInfoDTO> getAllQuizz(){
+    public List<QuizzInfoDTO> getAllQuizz(){
 
         return quizzMapper.toDTOs(quizzRepository.findAll());
+    }
+
+    public List<QuizzInfoDTO> getPublishedQuizz(){
+        return quizzMapper.toDTOs(quizzRepository.findByPublishedTrue());
     }
 
     public QuizzInfoDTO addQuestion(Long id, QuestionDTO question){
@@ -74,6 +80,8 @@ public class QuizzService {
         existingQuizz.setCourse(updatedQuizzDTO.course());
         existingQuizz.setDescription(updatedQuizzDTO.description());
         existingQuizz.setPublished(updatedQuizzDTO.published());
+
+        existingQuizz.setCategory(updatedQuizzDTO.category());
 
         Quizz saveQuizz = quizzRepository.save(existingQuizz);
         return quizzMapper.toDTO(saveQuizz);
@@ -135,5 +143,53 @@ public class QuizzService {
         questionRepository.delete(question);
 
         return quizzMapper.toDTO(quizzRepository.save(quizz));
+    }
+
+    public AnswerResultDTO answerQuestion(Long questionId, int optionIndex) {
+
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+
+        if (optionIndex < 0 || optionIndex >= question.getOptions().size()) {
+            throw new RuntimeException("Answer option not found with index: " + optionIndex);
+        }
+
+        boolean correct = optionIndex == question.getCorrectIndex();
+
+        if (correct) {
+            question.setCorrectAnswers(question.getCorrectAnswers() + 1);
+        } else {
+            question.setWrongAnswers(question.getWrongAnswers() + 1);
+        }
+
+        questionRepository.save(question);
+
+        return new AnswerResultDTO(
+                question.getId(),
+                optionIndex,
+                correct,
+                question.getCorrectIndex()
+        );
+    }
+
+    public List<QuestionResultDTO> getQuestionResultsByQuizzId(Long quizzId) {
+
+        if (!quizzRepository.existsById(quizzId)) {
+            throw new RuntimeException("Quizz not found with id: " + quizzId);
+        }
+
+        List<Question> questions = questionRepository.findByQuizzId(quizzId);
+        List<QuestionResultDTO> results = new ArrayList<>();
+
+        for (Question question : questions) {
+            results.add(new QuestionResultDTO(
+                    question.getId(),
+                    question.getText(),
+                    question.getCorrectAnswers(),
+                    question.getWrongAnswers()
+            ));
+        }
+
+        return results;
     }
 }
