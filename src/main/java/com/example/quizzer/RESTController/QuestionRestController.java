@@ -1,15 +1,25 @@
 package com.example.quizzer.RESTController;
 
-import com.example.quizzer.DTO.OptionDTO;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.quizzer.DTO.AnswerResultDTO;
+import com.example.quizzer.DTO.OptionDTO;
 import com.example.quizzer.DTO.QuestionDTO;
 import com.example.quizzer.DTO.QuestionInfoDTO;
+import com.example.quizzer.DTO.QuestionResultDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.service.QuizzService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -70,6 +80,27 @@ public class QuestionRestController {
         try {
             QuestionDTO updatedQuestion = quizzService.deleteAnswerOption(questionId, optionIndex);
             return ResponseEntity.ok(updatedQuestion);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/question/{questionId}/answer")
+    public ResponseEntity<Object> answerQuestion(@PathVariable Long questionId,
+                                                 @RequestParam int optionIndex) {
+        try {
+            AnswerResultDTO result = quizzService.answerQuestion(questionId, optionIndex);
+            return ResponseEntity.ok(result);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/quizz/{quizzId}/question-results")
+    public ResponseEntity<Object> getQuestionResults(@PathVariable Long quizzId) {
+        try {
+            List<QuestionResultDTO> results = quizzService.getQuestionResultsByQuizzId(quizzId);
+            return ResponseEntity.ok(results);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
