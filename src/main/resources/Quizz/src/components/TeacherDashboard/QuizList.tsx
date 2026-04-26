@@ -64,7 +64,7 @@ function QuizList(){
             field: "category",
             headerName: "Category",
             flex: 1,
-            valueGetter: (_, row) => row.categoryID?.name || "—"
+            valueGetter: (_, row) => row.categoryID?.name || row.category || "—"
         },
         {
             field: "creationDate",
@@ -170,6 +170,7 @@ function QuizList(){
             name: updatedQuizz.name,
             description: updatedQuizz.description,
             course: updatedQuizz.course,
+            category: updatedQuizz.category,
             published: updatedQuizz.published,
             creationDate: updatedQuizz.creationDate,
             questions: []

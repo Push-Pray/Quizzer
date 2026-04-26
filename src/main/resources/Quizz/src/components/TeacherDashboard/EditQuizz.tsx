@@ -23,6 +23,7 @@ export default function EditQuizz(props:EditQuizzProps) {
         name:"",
         description: "",
         course: "",
+        category: "",
         published: false,
         creationDate: "",
         questions: []
@@ -34,6 +35,7 @@ export default function EditQuizz(props:EditQuizzProps) {
             name: props.quizz.name,
             description: props.quizz.description,
             course: props.quizz.course,
+            category: props.quizz.category ?? props.quizz.categoryID?.name ?? "",
             published: props.quizz.published,
             creationDate: props.quizz.creationDate,
             questions: props.quizz.questions

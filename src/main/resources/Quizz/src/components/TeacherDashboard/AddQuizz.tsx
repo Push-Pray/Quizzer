@@ -20,6 +20,7 @@ export default function AddQuizz(props: AddQuizzProps){
         name:"",
         description:"",
         course:"", 
+        category: "",
         published: false,
         creationDate: new Date().toISOString().split("T")[0],
         questions: []
@@ -31,6 +32,7 @@ export default function AddQuizz(props: AddQuizzProps){
             name:"",
             description:"",
             course:"", 
+            category: "",
             published: false,
             creationDate: new Date().toISOString().split("T")[0],
             questions: []

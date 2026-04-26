@@ -11,6 +11,7 @@ export type QuizzData = {
     name:string;
     description: string;
     course: string;
+    category?: string;
     published: boolean;
     creationDate: string;
     questions: QuestionInfoData[];

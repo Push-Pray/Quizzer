@@ -1,9 +1,20 @@
+import { useEffect, useState } from "react";
 import DialogContent from "@mui/material/DialogContent"
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField"
+import { fetchCategories } from "../../categoryapi";
 import type { Quizz } from "../types"
+
+type Category = {
+    id: number;
+    name: string;
+}
 
 type  QuizzFormType = {
     quizz: Quizz;
@@ -11,6 +22,14 @@ type  QuizzFormType = {
 }
 
 export default function QuizzForm(props:QuizzFormType){
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        fetchCategories()
+            .then((data) => setCategories(Array.isArray(data) ? data : []))
+            .catch((error) => console.error(error));
+    }, []);
+
     return(
         <>
         <DialogContent>
@@ -38,6 +57,25 @@ export default function QuizzForm(props:QuizzFormType){
             value={props.quizz.course}
             onChange={e => props.setQuizz({...props.quizz, course:e.target.value})}
             />
+
+            <FormControl fullWidth margin="dense">
+                <InputLabel id="quizz-category-label">Category</InputLabel>
+                <Select
+                    labelId="quizz-category-label"
+                    value={props.quizz.category ?? ""}
+                    label="Category"
+                    onChange={(e) => props.setQuizz({ ...props.quizz, category: e.target.value })}
+                >
+                    <MenuItem value="">
+                        <em>No category</em>
+                    </MenuItem>
+                    {categories.map((category) => (
+                        <MenuItem key={category.id} value={category.name}>
+                            {category.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
 
             <FormControlLabel
             control={
