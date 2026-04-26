@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { fetchCategories } from "../../categoryapi";
+import { deleteCategory, fetchCategories } from "../../categoryapi";
 import { DataGrid } from "@mui/x-data-grid";
-import type { GridColDef } from "@mui/x-data-grid";
+import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import AddCategory from "./AddCategory";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 import DashboardHeader from "./DashboardHeader";
 
 interface Category {
@@ -32,9 +34,42 @@ function CategoryList() {
     document.title = "Categories";
   }, []);
 
+  const handleDeleteCategory = async (id: number) => {
+    if (!window.confirm("Are you sure you want to delete this category?")) {
+      return;
+    }
+
+    try {
+      await deleteCategory(id);
+      getCategories();
+    } catch (error) {
+      console.error(error);
+      alert("Delete failed");
+    }
+  };
+
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 200 },
     { field: "description", headerName: "Description", width: 600 },
+    {
+      field: "delete",
+      headerName: "",
+      width: 90,
+      sortable: false,
+      filterable: false,
+      renderCell: (params: GridRenderCellParams<Category>) => (
+        <IconButton
+          color="error"
+          size="small"
+          onClick={(event) => {
+            event.stopPropagation();
+            handleDeleteCategory(params.row.id);
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      ),
+    },
   ];
 
   return (

@@ -16,3 +16,17 @@ export const addCategory = async (category: { name: string; description: string 
   if (!res.ok) throw new Error("Failed to add category");
   return res.json();
 };
+
+export const deleteCategory = async (id: number) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) throw new Error("Failed to delete category");
+
+  if (res.status === 204) {
+    return;
+  }
+
+  return res.text();
+};
