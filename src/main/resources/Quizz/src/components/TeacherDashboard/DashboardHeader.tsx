@@ -22,8 +22,7 @@ function DashboardHeader({ activePage }: DashboardHeaderProps) {
     <Box
       sx={{
         backgroundColor: "#ffffff",
-        borderBottom: "1px solid rgba(191, 219, 254, 0.9)",
-        boxShadow: "0 2px 10px rgba(15, 23, 42, 0.04)",
+        borderBottom: "1px solid #d9e2ec",
       }}
     >
       <Stack
@@ -32,7 +31,7 @@ function DashboardHeader({ activePage }: DashboardHeaderProps) {
           maxWidth: 1280,
           mx: "auto",
           px: { xs: 2, md: 3 },
-          py: 1.1,
+          py: 1.5,
           alignItems: "center",
           justifyContent: "space-between",
         }}
@@ -52,10 +51,10 @@ function DashboardHeader({ activePage }: DashboardHeaderProps) {
           <Box>
             <Typography
               sx={{
-                fontSize: { xs: "1.65rem", md: "2rem" },
-                fontWeight: 500,
+                fontSize: { xs: "1.7rem", md: "2rem" },
+                fontWeight: 400,
                 lineHeight: 1,
-                color: "#0b66e8",
+                color: "#1870d5",
               }}
             >
               Quizzer
@@ -63,8 +62,8 @@ function DashboardHeader({ activePage }: DashboardHeaderProps) {
             <Typography
               sx={{
                 mt: 0.25,
-                fontSize: "0.9rem",
-                color: "#5b6b86",
+                fontSize: "0.85rem",
+                color: "#5b6472",
               }}
             >
               Teacher Dashboard
@@ -79,7 +78,7 @@ function DashboardHeader({ activePage }: DashboardHeaderProps) {
             sx={{
               ...navButtonSx,
               fontWeight: activePage === "quizzes" ? 700 : 500,
-              color: activePage === "quizzes" ? "#2156c9" : "#42526b",
+              color: activePage === "quizzes" ? "#2456c7" : "#3f4a5a",
             }}
             onClick={() => navigate("/")}
           >
@@ -91,7 +90,7 @@ function DashboardHeader({ activePage }: DashboardHeaderProps) {
             sx={{
               ...navButtonSx,
               fontWeight: activePage === "categories" ? 700 : 500,
-              color: activePage === "categories" ? "#2156c9" : "#42526b",
+              color: activePage === "categories" ? "#2456c7" : "#3f4a5a",
             }}
             onClick={() => navigate("/categories")}
           >

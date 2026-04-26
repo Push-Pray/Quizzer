@@ -1,37 +1,44 @@
 .app-shell {
   min-height: 100vh;
+  background: #dcecff;
 }
 
 .app-header {
   background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 12px 24px;
+  border-bottom: 1px solid #d9e2ec;
+  padding: 10px 24px;
 }
 
 .app-nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 3px;
+  border-radius: 12px;
+  background: #f2f5f9;
 }
 
 .nav-link {
-  color: #333;
+  color: #2f3847;
   text-decoration: none;
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 8px 18px;
+  border-radius: 10px;
 }
 
 .nav-link:hover {
-  background: #f5f5f5;
+  background: #e8edf4;
 }
 
 .nav-link.active {
-  color: #0d47a1;
-  background: #e8f0fe;
+  color: #ffffff;
+  background: linear-gradient(90deg, #2563eb 0%, #0ea5c6 100%);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.22);
 }
 
 .app-content {
   margin-top: 0;
-  padding: 20px;
+  padding: 0;
 }

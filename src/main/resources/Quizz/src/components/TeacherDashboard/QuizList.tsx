@@ -14,7 +14,6 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import logo from "../../assets/LogoQuiz.png";
 import DashboardHeader from "./DashboardHeader";
 
 function QuizList(){
@@ -221,17 +220,17 @@ function QuizList(){
         <Box
             sx={{
                 minHeight: "100vh",
-                background: "linear-gradient(180deg, #edf6ff 0%, #eef8ff 36%, #f5fbff 100%)",
+                backgroundColor: "#dcecff",
             }}
         >
             <DashboardHeader activePage="quizzes" />
 
             <Box
                 sx={{
-                    maxWidth: 1180,
+                    maxWidth: 1280,
                     mx: "auto",
-                    px: { xs: 2, md: 4 },
-                    py: { xs: 4, md: 6 },
+                    px: { xs: 2, md: 3 },
+                    py: { xs: 3, md: 4 },
                 }}
             >
                 <Stack
@@ -245,32 +244,18 @@ function QuizList(){
                 >
                     <Stack
                         direction="row"
-                        spacing={2}
+                        spacing={0}
                         sx={{
                             alignItems: "center",
                         }}
                     >
-                        <Box
-                            component="img"
-                            src={logo}
-                            alt="Quizzer logo"
-                            sx={{
-                                width: { xs: 68, md: 84 },
-                                height: { xs: 68, md: 84 },
-                                objectFit: "contain",
-                                flexShrink: 0,
-                            }}
-                        />
-
                         <Box>
                         <Typography
-                            variant="h3"
                             sx={{
                                 m: 0,
-                                fontSize: { xs: "2rem", md: "2.4rem" },
-                                fontWeight: 700,
-                                color: "#0f172a",
-                                letterSpacing: "-0.03em",
+                                fontSize: { xs: "2.1rem", md: "2.35rem" },
+                                fontWeight: 600,
+                                color: "#111827",
                             }}
                         >
                             Quizzes
@@ -285,14 +270,15 @@ function QuizList(){
                 <Paper
                     elevation={0}
                     sx={{
-                        borderRadius: 4,
+                        borderRadius: 3,
                         overflow: "hidden",
-                        border: "1px solid rgba(205, 226, 245, 0.9)",
+                        border: "none",
                         backgroundColor: "#ffffff",
-                        boxShadow: "0 14px 32px rgba(134, 175, 214, 0.18)",
+                        boxShadow: "none",
+                        height: 520,
                     }}
                 >
-                    <Box sx={{ width: "100%", minHeight: 520 }}>
+                    <Box sx={{ width: "100%", height: "100%" }}>
                         <DataGrid
                             rows={quizz || []}
                             columns={columns}
@@ -305,35 +291,50 @@ function QuizList(){
                             disableColumnMenu
                             sx={{
                                 border: "none",
-                                backgroundColor: "transparent",
+                                backgroundColor: "#ffffff",
+                                height: "100%",
                                 '& .MuiDataGrid-columnHeaders': {
-                                    backgroundColor: "#f3fbff",
+                                    backgroundColor: "#e8f7ff",
                                     color: "#163b77",
-                                    borderBottom: "1px solid rgba(205, 226, 245, 0.95)",
-                                    fontSize: 15,
+                                    borderBottom: "1px solid #cfe3f5",
+                                    fontSize: 14,
                                     fontWeight: 700,
+                                },
+                                '& .MuiDataGrid-topContainer': {
+                                    backgroundColor: "#e8f7ff",
+                                },
+                                '& .MuiDataGrid-columnHeader': {
+                                    backgroundColor: "#e8f7ff",
+                                },
+                                '& .MuiDataGrid-columnHeadersInner': {
+                                    backgroundColor: "#e8f7ff",
                                 },
                                 '& .MuiDataGrid-columnHeaderTitle': {
                                     fontWeight: 700,
                                 },
+                                '& .MuiDataGrid-columnSeparator': {
+                                    color: "rgba(22, 59, 119, 0.18)",
+                                },
                                 '& .MuiDataGrid-row': {
-                                    backgroundColor: "rgba(255, 255, 255, 0.94)",
-                                    transition: "background-color 120ms ease",
+                                    backgroundColor: "#ffffff",
                                 },
                                 '& .MuiDataGrid-row:hover': {
-                                    backgroundColor: "#f8fcff",
+                                    backgroundColor: "#ffffff",
                                 },
                                 '& .MuiDataGrid-cell': {
-                                    borderBottom: "1px solid rgba(224, 234, 244, 0.9)",
-                                    color: "#1f2a44",
+                                    borderBottom: "1px solid #e5e7eb",
+                                    color: "#1f2937",
                                     alignItems: "center",
                                 },
+                                '& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-cell:focus': {
+                                    outline: "none",
+                                },
                                 '& .MuiDataGrid-footerContainer': {
-                                    borderTop: "1px solid rgba(224, 234, 244, 0.9)",
+                                    borderTop: "1px solid #e5e7eb",
                                     backgroundColor: "#ffffff",
                                 },
                                 '& .MuiDataGrid-virtualScroller': {
-                                    backgroundColor: "transparent",
+                                    backgroundColor: "#ffffff",
                                 },
                             }}
                         />
