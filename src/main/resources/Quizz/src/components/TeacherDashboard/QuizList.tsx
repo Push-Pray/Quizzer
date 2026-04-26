@@ -296,7 +296,10 @@ function QuizList(){
                             rows={quizz || []}
                             columns={columns}
                             getRowId={(row)=> row.id}
-                            autoPageSize
+                            initialState={{
+                                pagination: { paginationModel: { pageSize: 10, page: 0 } },
+                            }}
+                            pageSizeOptions={[5, 10, 25, 50]}
                             rowSelection={false}
                             disableColumnMenu
                             sx={{
