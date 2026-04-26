@@ -61,7 +61,7 @@ export default function EditQuizz(props:EditQuizzProps) {
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Edit Quiz</DialogTitle>
 
-                <QuizzForm quizz={quizz} setQuizz={setQuizz} />
+                <QuizzForm quizz={quizz} setQuizz={setQuizz} mode="edit" />
 
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
