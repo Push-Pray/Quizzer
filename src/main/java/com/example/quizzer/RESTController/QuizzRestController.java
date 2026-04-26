@@ -71,6 +71,15 @@ public class QuizzRestController {
         }
     }
 
+    @GetMapping("/quizz/{id}/questions")
+    public ResponseEntity<Object> listQuizzQuestions(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok().body(quizzService.getQuestionsByQuizzId(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/quizz/{quizzId}/question/{questionId}")
     public ResponseEntity<Object> deleteQuestion(@PathVariable Long quizzId, @PathVariable Long questionId){
 
