@@ -57,7 +57,7 @@ export default function StudentQuizzList() {
       field: "category",
       headerName: "Category",
       flex: 1,
-      valueGetter: (_, row) => (row.categoryID && typeof row.categoryID === 'object' ? row.categoryID.name : "—"),
+        valueGetter: (_, row) => row.category ? row.category : "—",
     },
     {
       field: "creationDate",
