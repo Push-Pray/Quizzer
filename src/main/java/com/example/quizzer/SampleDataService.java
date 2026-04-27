@@ -1,5 +1,6 @@
 package com.example.quizzer;
 
+import com.example.quizzer.model.Category;
 import com.example.quizzer.model.Question;
 import com.example.quizzer.model.Quizz;
 import com.example.quizzer.model.User;
@@ -16,12 +17,14 @@ public class SampleDataService {
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
     private final QuizzRepository quizzRepository;
+    private final CategoryRepository categoryRepository;
 
-    public SampleDataService(UserRepository userRepository, QuestionRepository questionRepository, QuizzRepository quizzRepository) {
+    public SampleDataService(UserRepository userRepository, QuestionRepository questionRepository, QuizzRepository quizzRepository, CategoryRepository categoryRepository) {
 
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
         this.quizzRepository = quizzRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @PostConstruct
@@ -37,6 +40,8 @@ public class SampleDataService {
 
         try {
             if (quizzRepository.count() == 0) {
+
+                categoryRepository.save(new Category("Geography", "Questions from arround the world"));
                 Quizz quiz1 = new Quizz("Capitals");
                 quiz1.setDescription("Test your knowledge of world capitals");
                 quiz1.setCourse("Gph101");
