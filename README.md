@@ -135,3 +135,30 @@ To inspect the database natively, you can verify if the H2 console is enabled (v
 ### General Guidelines
 - **Modifying APIs**: If you modify the Spring Model (`model/`), make sure to update its `DTO/` and its mapping in `mapper/` and run `mvnw clean compile` for MapStruct to regenerate the code.
 - **Typescript Checks**: Use `npm run build` on the frontend before committing to verify there are no TypeScript errors.
+
+## Additional documentation topics
+The following items should be completed in the project documentation:
+
+- **API Reference**
+  - `GET /api/quizz` — retrieve all quizzes
+  - `GET /api/quizz/published` — retrieve only published quizzes for students
+  - `GET /api/quizz/{id}/questions` — retrieve questions for a single quiz
+  - `POST /api/quizz` — create a new quiz
+  - `POST /api/quizz/{id}/question` — add a question to a quiz
+  - `DELETE /api/quizz/{quizzId}/question/{questionId}` — remove a question from a quiz
+  - `GET /question/{questionId}/options` — list answer options for a question
+  - `POST /question/{questionId}/option` — add a new answer option
+  - `POST /question/{questionId}/answer` — submit an answer to a question
+
+- **Frontend routes and views**
+  - `/student` — published quiz list for students
+  - `/student/quizz/:id` — quiz question list for a student
+  - `/` — teacher quiz management dashboard
+  - `/quizz/:id` — edit questions for a specific quiz (teacher view)
+  - `/quizz/:quizId/question/:questionId` — edit option details for a single question
+
+- **Sample data / seed data**
+  - To add test quizzes, edit `SampleDataService.init()` method in `src/main/java/com/example/quizzer/SampleDataService.java`
+  - Now it's filled with 2 test quizzes with several questions about geography, you can add any quizzes and questions you want.
+
+
