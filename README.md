@@ -36,6 +36,9 @@ Welcome to the **Quizzer** project! This guide is intended to help new developer
 ## Project Overview
 Quizzer is a web application designed for creating and managing quizzes. It's the first team project for the Software Development Project 1 course. The application allows teachers (or admins) to create questions, assemble quizzes, and manage options using an intuitive dashboard.
 
+## Project Deployment
+Project address: [https://quizzer-git-software-development-project-1-quizzer.2.rahtiapp.fi] (https://quizzer-git-software-development-project-1-quizzer.2.rahtiapp.fi)
+
 ## Tech Stack
 The project is split into a backend built with Java and a frontend built with React.
 
@@ -136,8 +139,7 @@ To inspect the database natively, you can verify if the H2 console is enabled (v
 - **Modifying APIs**: If you modify the Spring Model (`model/`), make sure to update its `DTO/` and its mapping in `mapper/` and run `mvnw clean compile` for MapStruct to regenerate the code.
 - **Typescript Checks**: Use `npm run build` on the frontend before committing to verify there are no TypeScript errors.
 
-## Additional documentation topics
-The following items should be completed in the project documentation:
+## Technical Documentation
 
 - **API Reference**
   - `GET /api/quizz` — retrieve all quizzes
