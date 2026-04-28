@@ -42,3 +42,12 @@ export type QuestionInfoData = {
     difficulty: QuestionDifficulty;
 }
 export type QuestionInfo = Omit<QuestionInfoData,"id">;
+
+
+export type QuestionFullData = {
+  id: number;
+  text: string;
+  difficulty: QuestionDifficulty;
+  options: string[];
+  correctIndex: number;
+};

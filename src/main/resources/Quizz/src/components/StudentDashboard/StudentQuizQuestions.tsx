@@ -10,33 +10,83 @@ import CircularProgress from "@mui/material/CircularProgress";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
-import type { QuestionInfoData } from "../types";
+import type {  QuestionFullData } from "../types";
 import { fetchQuestion } from "../../questionapi";
+import Button from "@mui/material/Button";
+
+
+
+type AnswerMap = Record<number, number>;
+
+type AnswerResult = {
+  questionId: number;
+  correctIndex: number;
+  isCorrect: boolean;}
 
 export default function StudentQuizQuestions() {
   const { id } = useParams<{ id: string }>();
-  const [questions, setQuestions] = useState<QuestionInfoData[]>([]);
+  const [answers, setAnswers] = useState<AnswerMap>({});
+  const [answerResults, setAnswerResults] = useState<AnswerResult[]>([]);
+  const [questions, setQuestions] = useState<QuestionFullData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) {
-      setError("Quiz ID is missing.");
-      setLoading(false);
-      return;
-    }
+    if (!id) return;
 
     setLoading(true);
     setError(null);
+    
 
     fetchQuestion(Number(id))
-      .then((data) => setQuestions(Array.isArray(data) ? data : []))
-      .catch((err) => {
-        setError(err?.message || "Failed to load quiz questions.");
+      .then((data) => {
+  const formatted: QuestionFullData[] = Array.isArray(data)
+    ? data.map((q: any) => ({
+        id: q.id,
+        text: q.text,
+        difficulty: q.difficulty ?? "easy", 
+        options: q.options ?? [], 
+        correctIndex: q.correctIndex ?? 0, 
+      }))
+    : [];
+
+  setQuestions(formatted);
+})
+      .catch(() => {
+        setError("Failed to fetch questions.");
         setQuestions([]);
       })
       .finally(() => setLoading(false));
   }, [id]);
+
+  const handleSelect = (questionId: number, optionIndex: number) => {
+    setAnswers({
+      ...answers,
+      [questionId]: optionIndex,
+    });
+  };
+    
+  const handleSubmit = () => {
+    const resultData: AnswerResult[] = questions.map((q) => {
+      const selected = answers[q.id];
+
+      return {
+        questionId: q.id,
+        isCorrect: selected === q.correctIndex,
+        correctIndex: q.correctIndex,
+      };
+    });
+    setAnswerResults(resultData);
+    setSubmitted(true);
+  };
+
+  const correctCount = answerResults.filter((r) => r.isCorrect).length;
+  const wrongCount = answerResults.length - correctCount;
+
+  if (!id) {
+    return <Typography color = "error">No quiz ID provided.</Typography>;
+  }
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -97,6 +147,7 @@ export default function StudentQuizQuestions() {
               <Typography>No questions found for this quiz.</Typography>
             </Paper>
           ) : (
+            <>
             <Paper elevation={0} sx={{ borderRadius: 4, bgcolor: "#ffffff" }}>
               <List disablePadding>
                 {questions.map((question, index) => (
@@ -120,12 +171,77 @@ export default function StudentQuizQuestions() {
                         </Stack>
                         <Typography sx={{ color: "#334155" }}>{question.text}</Typography>
                       </Stack>
+                      <Stack spacing={1}>
+                            {question.options.map((option, i) => (
+                              <Paper
+                                key={i}
+                                onClick={() => handleSelect(question.id, i)}
+                                sx={{
+                                  p: 1.5,
+                                  cursor: submitted ? "default" : "pointer",
+                                  backgroundColor:
+                                    submitted && i === question.correctIndex
+                                      ? "#2e7d32"
+                                      : answers[question.id] === i
+                                      ? "#1976d2"
+                                      : "#f1f5f9",
+                                  color:
+                                    answers[question.id] === i ||
+                                    (submitted && i === question.correctIndex)
+                                      ? "#fff"
+                                      : "#000",
+                                }}
+                              >
+                                {option}
+                              </Paper>
+                            ))}
+                          </Stack>
+
+                           {submitted && (
+                            <Typography>
+                              {answerResults.find(
+                                (r) => r.questionId === question.id
+                              )?.isCorrect
+                                ? "✅ Correct"
+                                : `❌ Wrong (Correct: ${
+                                    question.options[
+                                      question.correctIndex
+                                    ]
+                                  })`}
+                            </Typography>
+                          )}
+                          
                     </ListItem>
                     {index < questions.length - 1 && <Divider component="li" />}
                   </Box>
                 ))}
               </List>
             </Paper>
+
+            {!submitted && (
+                <Box sx={{ textAlign: "center", mt: 2 }}>
+                  <Button variant="contained" onClick={handleSubmit}>
+                    Submit Answers
+                  </Button>
+                </Box>
+              )}
+
+             
+              {submitted && (
+                <Paper sx={{ p: 3 }}>
+                  <Typography variant="h5">Results</Typography>
+                  <Typography>✅ Correct: {correctCount}</Typography>
+                  <Typography>❌ Wrong: {wrongCount}</Typography>
+                  <Typography sx={{ mt: 1 }}>
+                    Score:{" "}
+                    {Math.round(
+                      (correctCount / answerResults.length) * 100
+                    )}
+                    %
+                  </Typography>
+                </Paper>
+              )}
+            </>
           )}
         </Stack>
       </Box>
