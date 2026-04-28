@@ -75,7 +75,7 @@ export default function StudentQuizResults() {
       headerName: "Difficulty",
       minWidth: 120,
       flex: 0.7,
-      valueFormatter: (value) =>
+      valueFormatter: (value: any) =>
         typeof value === "string" ? value.charAt(0).toUpperCase() + value.slice(1) : "—",
     },
     {
