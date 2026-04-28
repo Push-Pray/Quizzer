@@ -11,10 +11,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import StudentDashboardHeader from "./StudentDashboardHeader";
+import DashboardHeader from "./DashboardHeader";
 import type { QuestionDifficulty, QuestionResultData, QuizzData } from "../types";
 import { fetchQuestionResults } from "../../questionapi";
-import { fetchPublishedQuizz } from "../../quizzapi";
+import { fetchQuizz } from "../../quizzapi";
 
 type QuestionResultRow = QuestionResultData & {
   difficulty: QuestionDifficulty | "—";
@@ -22,7 +22,7 @@ type QuestionResultRow = QuestionResultData & {
   correctAnswerPercentage: number;
 };
 
-export default function StudentQuizResults() {
+export default function TeacherQuizResults() {
   const { id } = useParams<{ id: string }>();
   const [quiz, setQuiz] = useState<QuizzData | null>(null);
   const [rows, setRows] = useState<QuestionResultRow[]>([]);
@@ -39,7 +39,7 @@ export default function StudentQuizResults() {
     setLoading(true);
     setError(null);
 
-    Promise.all([fetchPublishedQuizz(), fetchQuestionResults(Number(id))])
+    Promise.all([fetchQuizz(), fetchQuestionResults(Number(id))])
       .then(([quizzes, results]) => {
         const currentQuiz = quizzes.find((entry) => entry.id === Number(id)) ?? null;
 
@@ -72,7 +72,7 @@ export default function StudentQuizResults() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <StudentDashboardHeader activePage="quizzes" />
+      <DashboardHeader activePage="quizzes" />
 
       <Box
         component="main"

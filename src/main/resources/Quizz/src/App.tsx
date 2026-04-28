@@ -4,6 +4,7 @@ import QuizList from './components/TeacherDashboard/QuizList'
 import QuestionList from './components/TeacherDashboard/QuestionList'
 import OptionList from './components/TeacherDashboard/OptionList';
 import CategoryList from './components/TeacherDashboard/CategoryList';
+import TeacherQuizResults from './components/TeacherDashboard/TeacherQuizResults';
 import StudentQuizzList from './components/StudentDashboard/StudentQuizzList';
 import StudentCategoryList from './components/StudentDashboard/StudentCategoryList';
 import StudentCategoryQuizzList from './components/StudentDashboard/StudentCategoryQuizzList';
@@ -28,6 +29,7 @@ function App() {
           <Routes>
             <Route path= "/" element={<QuizList />} />
             <Route path= "/quizz/:id" element={<QuestionList />} />
+            <Route path= "/quizz/:id/results" element={<TeacherQuizResults />} />
             <Route path= "/quizz/:quizId/question/:questionId" element={<OptionList />} />
             <Route path= "/categories" element={<CategoryList />} />
             <Route path= "/student" element={<StudentQuizzList />} />

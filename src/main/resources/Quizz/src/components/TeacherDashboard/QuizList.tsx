@@ -209,6 +209,7 @@ function QuizList(){
                                     <TableCell>Category</TableCell>
                                     <TableCell>Created</TableCell>
                                     <TableCell>Published</TableCell>
+                                    <TableCell>Results</TableCell>
                                     <TableCell align="center"></TableCell>
                                     <TableCell align="center"></TableCell>
                                 </TableRow>
@@ -245,6 +246,21 @@ function QuizList(){
                                                     bgcolor: quiz.published ? "#d8f3e3" : "#fff1c9",
                                                 }}
                                             />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Link
+                                                component="button"
+                                                underline="hover"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    color: "#2156c9",
+                                                    textAlign: "left",
+                                                    textDecorationColor: "rgba(33, 86, 201, 0.35)",
+                                                }}
+                                                onClick={() => navigate(`/quizz/${quiz.id}/results`)}
+                                            >
+                                                See results
+                                            </Link>
                                         </TableCell>
                                         <TableCell align="center">
                                             <EditQuizz
