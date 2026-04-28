@@ -26,6 +26,7 @@ export type QuestionData = {
 
     id:number;
     text: string,
+    difficulty?: QuestionDifficulty;
     options: string[];
     correctIndex: number
 
@@ -50,4 +51,18 @@ export type QuestionFullData = {
   difficulty: QuestionDifficulty;
   options: string[];
   correctIndex: number;
+};
+
+export type AnswerResultData = {
+    questionId: number;
+    selectedOptionIndex: number;
+    correct: boolean;
+    correctIndex: number;
+};
+
+export type QuestionResultData = {
+    questionId: number;
+    questionText: string;
+    correctAnswers: number;
+    wrongAnswers: number;
 };

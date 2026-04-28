@@ -72,6 +72,31 @@ export default function StudentQuizzList() {
         });
       },
     },
+    {
+      field: "results",
+      headerName: "Results",
+      width: 120,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <Link
+          component="button"
+          underline="hover"
+          sx={{
+            fontWeight: 600,
+            color: "#2156c9",
+            textAlign: "left",
+            textDecorationColor: "rgba(33, 86, 201, 0.35)",
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            navigate(`/student/quizz/${params.row.id}/results`);
+          }}
+        >
+          See results
+        </Link>
+      ),
+    },
   ];
 
   useEffect(() => {

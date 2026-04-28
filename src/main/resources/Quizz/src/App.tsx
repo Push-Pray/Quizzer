@@ -6,6 +6,7 @@ import OptionList from './components/TeacherDashboard/OptionList';
 import CategoryList from './components/TeacherDashboard/CategoryList';
 import StudentQuizzList from './components/StudentDashboard/StudentQuizzList';
 import StudentQuizQuestions from './components/StudentDashboard/StudentQuizQuestions';
+import StudentQuizResults from './components/StudentDashboard/StudentQuizResults';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path= "/categories" element={<CategoryList />} />
             <Route path= "/student" element={<StudentQuizzList />} />
             <Route path= "/student/quizz/:id" element={<StudentQuizQuestions />} />
+            <Route path= "/student/quizz/:id/results" element={<StudentQuizResults />} />
           </Routes>
         </main>
       </div>
