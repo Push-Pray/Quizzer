@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import type  { QuizzData, Quizz} from "../../components/types"
-import type { GridColDef,  GridRenderCellParams } from '@mui/x-data-grid';
-import { DataGrid } from "@mui/x-data-grid";
 import AddQuizz from "./AddQuizz";
 import { fetchQuizz, deleteQuizz } from "../../quizzapi";
 import Stack from "@mui/material/Stack";
@@ -14,6 +12,12 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import DashboardHeader from "./DashboardHeader";
 
 function QuizList(){
@@ -22,119 +26,15 @@ function QuizList(){
 
     const navigate = useNavigate();
 
-    const columns : GridColDef<QuizzData>[] = [
-        {
-            field: "name",
-            headerName: "Name",
-            flex: 1,
-            minWidth: 180,
-            renderCell: (params) => (
-                <Link
-                    component="button"
-                    underline="hover"
-                    sx={{
-                        fontWeight: 600,
-                        color: "#2156c9",
-                        textAlign: "left",
-                        textDecorationColor: "rgba(33, 86, 201, 0.35)",
-                    }}
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        navigate(`/quizz/${params.row.id}`);
-                    }}
-                >
-                    {params.value}
-                </Link>
-            )
-        },
-        {
-            field: "description",
-            headerName: "Description",
-            flex: 1.35,
-            minWidth: 230,
-        },
-        {
-            field: "course",
-            headerName: "Course Code",
-            flex: 0.95,
-            minWidth: 165,
-        },
-        {
-            field: "category",
-            headerName: "Category",
-            flex: 1,
-            valueGetter: (_, row) => row.categoryID?.name || row.category || "—"
-        },
-        {
-            field: "creationDate",
-            headerName: "Created",
-            width:145,
-            valueFormatter: (value : string) => {
-                if (!value) return "";
+    const formatDate = (value: string) => {
+        if (!value) return "";
 
-              
-                return new Date(value).toLocaleDateString("fi-FI", {
-                    year:"numeric",
-                    month:"short",
-                    day: "numeric"
-                });
-            }
-        },
-        {
-            field:"published",
-            headerName:"Published",
-            width: 150,
-            renderCell: (params) => {
-                const isPublished = params.value;
-                return(
-                    <Chip
-                    label = {isPublished ? "Published" : "Not Published"}
-                    size="small"
-                    sx={{
-                        fontWeight: 700,
-                        color: isPublished ? "#1f7a4d" : "#9a5a00",
-                        bgcolor: isPublished ? "#d8f3e3" : "#fff1c9",
-                    }}
-                    />
-                )
-            }
-        },
-        {
-            field: "edit",
-            headerName: "",
-            width: 72,
-            sortable: false,
-            filterable: false,
-            renderCell: (params)=>(
-                <EditQuizz
-                
-                quizz={params.row}
-                handleUpdate={handleUpdateQuizz}
-                />
-            )
-        },
-        {
-         field: "delete",
-         headerName: "",
-         width:72,
-         sortable: false,
-         filterable: false,
-         renderCell: (params: GridRenderCellParams<QuizzData>) =>(
-         <IconButton 
-                color="error" 
-            size="small" 
-                sx={{ color: "#ef4444" }}
-            onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteQuizz(params.row.id);
-            }}>
-        <DeleteIcon/>
-         </IconButton>
-         )
-     }, 
-        
-        
-    ]
+        return new Date(value).toLocaleDateString("fi-FI", {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        });
+    };
      const getQuizz = () => {
         fetchQuizz()
         .then(data => { 
@@ -278,67 +178,95 @@ function QuizList(){
                         height: 520,
                     }}
                 >
-                    <Box sx={{ width: "100%", height: "100%" }}>
-                        <DataGrid
-                            rows={quizz || []}
-                            columns={columns}
-                            getRowId={(row)=> row.id}
-                            initialState={{
-                                pagination: { paginationModel: { pageSize: 10, page: 0 } },
-                            }}
-                            pageSizeOptions={[5, 10, 25, 50]}
-                            rowSelection={false}
-                            disableColumnMenu
+                    <TableContainer sx={{ width: "100%", height: "100%" }}>
+                        <Table
                             sx={{
-                                border: "none",
                                 backgroundColor: "#ffffff",
-                                height: "100%",
-                                '& .MuiDataGrid-columnHeaders': {
+                                '& th': {
                                     backgroundColor: "#e8f7ff",
                                     color: "#163b77",
                                     borderBottom: "1px solid #cfe3f5",
                                     fontSize: 14,
                                     fontWeight: 700,
                                 },
-                                '& .MuiDataGrid-topContainer': {
-                                    backgroundColor: "#e8f7ff",
-                                },
-                                '& .MuiDataGrid-columnHeader': {
-                                    backgroundColor: "#e8f7ff",
-                                },
-                                '& .MuiDataGrid-columnHeadersInner': {
-                                    backgroundColor: "#e8f7ff",
-                                },
-                                '& .MuiDataGrid-columnHeaderTitle': {
-                                    fontWeight: 700,
-                                },
-                                '& .MuiDataGrid-columnSeparator': {
-                                    color: "rgba(22, 59, 119, 0.18)",
-                                },
-                                '& .MuiDataGrid-row': {
+                                '& tbody tr': {
                                     backgroundColor: "#ffffff",
                                 },
-                                '& .MuiDataGrid-row:hover': {
+                                '& tbody tr:hover': {
                                     backgroundColor: "#ffffff",
                                 },
-                                '& .MuiDataGrid-cell': {
+                                '& td': {
                                     borderBottom: "1px solid #e5e7eb",
                                     color: "#1f2937",
-                                    alignItems: "center",
-                                },
-                                '& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-cell:focus': {
-                                    outline: "none",
-                                },
-                                '& .MuiDataGrid-footerContainer': {
-                                    borderTop: "1px solid #e5e7eb",
-                                    backgroundColor: "#ffffff",
-                                },
-                                '& .MuiDataGrid-virtualScroller': {
-                                    backgroundColor: "#ffffff",
                                 },
                             }}
-                        />
-                    </Box>
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Description</TableCell>
+                                    <TableCell>Course Code</TableCell>
+                                    <TableCell>Category</TableCell>
+                                    <TableCell>Created</TableCell>
+                                    <TableCell>Published</TableCell>
+                                    <TableCell align="center"></TableCell>
+                                    <TableCell align="center"></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {quizz.map((quiz) => (
+                                    <TableRow key={quiz.id} hover>
+                                        <TableCell>
+                                            <Link
+                                                component="button"
+                                                underline="hover"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    color: "#2156c9",
+                                                    textAlign: "left",
+                                                    textDecorationColor: "rgba(33, 86, 201, 0.35)",
+                                                }}
+                                                onClick={() => navigate(`/quizz/${quiz.id}`)}
+                                            >
+                                                {quiz.name}
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell>{quiz.description}</TableCell>
+                                        <TableCell>{quiz.course}</TableCell>
+                                        <TableCell>{quiz.categoryID?.name || quiz.category || "—"}</TableCell>
+                                        <TableCell>{formatDate(quiz.creationDate)}</TableCell>
+                                        <TableCell>
+                                            <Chip
+                                                label={quiz.published ? "Published" : "Not Published"}
+                                                size="small"
+                                                sx={{
+                                                    fontWeight: 700,
+                                                    color: quiz.published ? "#1f7a4d" : "#9a5a00",
+                                                    bgcolor: quiz.published ? "#d8f3e3" : "#fff1c9",
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <EditQuizz
+                                                quizz={quiz}
+                                                handleUpdate={handleUpdateQuizz}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <IconButton
+                                                color="error"
+                                                size="small"
+                                                sx={{ color: "#ef4444" }}
+                                                onClick={() => handleDeleteQuizz(quiz.id)}
+                                            >
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Paper>
             </Box>
         </Box>

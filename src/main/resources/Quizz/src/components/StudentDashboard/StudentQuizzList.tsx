@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StudentDashboardHeader from "./StudentDashboardHeader";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,104 +7,29 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import logo from "../../assets/LogoQuiz.png";
 import type { QuizzData } from "../types";
 import { fetchPublishedQuizz } from "../../quizzapi";
 
 export default function StudentQuizzList() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
   const [quizzes, setQuizzes] = useState<QuizzData[]>([]);
   const [loading, setLoading] = useState(true);
-  const activeCategory = searchParams.get("category")?.trim() ?? "";
 
-  const filteredQuizzes = activeCategory
-    ? quizzes.filter((quiz) => (quiz.category ?? quiz.categoryID?.name ?? "") === activeCategory)
-    : quizzes;
-
-  const columns: GridColDef<QuizzData>[] = [
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      minWidth: 180,
-      renderCell: (params) => (
-        <Link
-          component="button"
-          underline="hover"
-          sx={{
-            fontWeight: 600,
-            color: "#2156c9",
-            textAlign: "left",
-            textDecorationColor: "rgba(33, 86, 201, 0.35)",
-          }}
-          onClick={(event) => {
-            event.stopPropagation();
-            navigate(`/student/quizz/${params.row.id}`);
-          }}
-        >
-          {params.value}
-        </Link>
-      ),
-    },
-    {
-      field: "description",
-      headerName: "Description",
-      flex: 1.35,
-      minWidth: 230,
-    },
-    {
-      field: "course",
-      headerName: "Course Code",
-      flex: 0.95,
-      minWidth: 165,
-    },
-    {
-      field: "category",
-      headerName: "Category",
-      flex: 1,
-        valueGetter: (_, row) => row.category ? row.category : "—",
-    },
-    {
-      field: "creationDate",
-      headerName: "Created",
-      width: 145,
-      valueFormatter: (value: string) => {
-        if (!value) return "";
-        return new Date(value).toLocaleDateString("fi-FI", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-      },
-    },
-    {
-      field: "results",
-      headerName: "Results",
-      width: 120,
-      sortable: false,
-      filterable: false,
-      renderCell: (params) => (
-        <Link
-          component="button"
-          underline="hover"
-          sx={{
-            fontWeight: 600,
-            color: "#2156c9",
-            textAlign: "left",
-            textDecorationColor: "rgba(33, 86, 201, 0.35)",
-          }}
-          onClick={(event) => {
-            event.stopPropagation();
-            navigate(`/student/quizz/${params.row.id}/results`);
-          }}
-        >
-          See results
-        </Link>
-      ),
-    },
-  ];
+  const formatDate = (value: string) => {
+    if (!value) return "";
+    return new Date(value).toLocaleDateString("fi-FI", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -175,7 +100,7 @@ export default function StudentQuizzList() {
                 Published quizzes
               </Typography>
               <Typography sx={{ mt: 0.75, color: "#5b6b86" }}>
-                {activeCategory ? `Showing quizzes in ${activeCategory}.` : "Browse all published quizzes or filter by category."}
+                Browse all published quizzes or open a category-specific list.
               </Typography>
             </Box>
           </Stack>
@@ -184,11 +109,6 @@ export default function StudentQuizzList() {
             <Button variant="outlined" onClick={() => navigate("/student/categories")}>
               Browse categories
             </Button>
-            {activeCategory ? (
-              <Button variant="text" onClick={() => setSearchParams({})}>
-                Clear filter
-              </Button>
-            ) : null}
           </Stack>
         </Stack>
 
@@ -196,11 +116,9 @@ export default function StudentQuizzList() {
           <Paper sx={{ p: 4, textAlign: "center" }}>
             <Typography>Loading published quizzes...</Typography>
           </Paper>
-        ) : filteredQuizzes.length === 0 ? (
+        ) : quizzes.length === 0 ? (
           <Paper sx={{ p: 4, textAlign: "center" }}>
-            <Typography>
-              {activeCategory ? `No published quizzes found in ${activeCategory}.` : "No published quizzes available yet."}
-            </Typography>
+            <Typography>No published quizzes available yet.</Typography>
           </Paper>
         ) : (
           <Paper
@@ -213,57 +131,83 @@ export default function StudentQuizzList() {
               boxShadow: "0 14px 32px rgba(134, 175, 214, 0.18)",
             }}
           >
-            <Box sx={{ width: "100%", minHeight: 520 }}>
-              <DataGrid
-                rows={filteredQuizzes}
-                columns={columns}
-                getRowId={(row) => row.id}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 10, page: 0 } },
-                }}
-                pageSizeOptions={[5, 10, 25, 50]}
-                disableColumnMenu
+            <TableContainer>
+              <Table
                 sx={{
-                  border: "none",
-                  backgroundColor: "transparent",
-                  "& .MuiDataGrid-columnHeaders": {
+                  "& th": {
                     backgroundColor: "#f3fbff",
                     color: "#163b77",
                     borderBottom: "1px solid rgba(205, 226, 245, 0.95)",
                     fontSize: 15,
                     fontWeight: 700,
                   },
-                  "& .MuiDataGrid-columnHeaderTitle": {
-                    fontWeight: 700,
-                  },
-                  "& .MuiDataGrid-row": {
-                    backgroundColor: "rgba(255, 255, 255, 0.94)",
-                    transition: "background-color 120ms ease",
-                    cursor: "pointer",
-                  },
-                  "& .MuiDataGrid-row:hover": {
-                    backgroundColor: "#f8fcff",
-                  },
-                  "& .MuiDataGrid-cell": {
+                  "& td": {
                     borderBottom: "1px solid rgba(224, 234, 244, 0.9)",
                     color: "#1f2a44",
-                    alignItems: "center",
                   },
-                  "& .MuiDataGrid-footerContainer": {
-                    borderTop: "1px solid rgba(224, 234, 244, 0.9)",
-                    backgroundColor: "#ffffff",
-                  },
-                  "& .MuiDataGrid-virtualScroller": {
-                    backgroundColor: "transparent",
+                  "& tbody tr:hover": {
+                    backgroundColor: "#f8fcff",
                   },
                 }}
-              />
-            </Box>
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Description</TableCell>
+                    <TableCell>Course Code</TableCell>
+                    <TableCell>Category</TableCell>
+                    <TableCell>Created</TableCell>
+                    <TableCell>Results</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {quizzes.map((quiz) => (
+                    <TableRow key={quiz.id} hover>
+                      <TableCell>
+                        <Link
+                          component="button"
+                          underline="hover"
+                          sx={{
+                            fontWeight: 600,
+                            color: "#2156c9",
+                            textAlign: "left",
+                            textDecorationColor: "rgba(33, 86, 201, 0.35)",
+                          }}
+                          onClick={() => navigate(`/student/quizz/${quiz.id}`)}
+                        >
+                          {quiz.name}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{quiz.description}</TableCell>
+                      <TableCell>{quiz.course}</TableCell>
+                      <TableCell>{quiz.category ?? quiz.categoryID?.name ?? "—"}</TableCell>
+                      <TableCell>{formatDate(quiz.creationDate)}</TableCell>
+                      <TableCell>
+                        <Link
+                          component="button"
+                          underline="hover"
+                          sx={{
+                            fontWeight: 600,
+                            color: "#2156c9",
+                            textAlign: "left",
+                            textDecorationColor: "rgba(33, 86, 201, 0.35)",
+                          }}
+                          onClick={() => navigate(`/student/quizz/${quiz.id}/results`)}
+                        >
+                          See results
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Paper>
         )}
       </Box>
     </Box>
   );
 }
+
 
 

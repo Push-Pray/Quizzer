@@ -127,7 +127,7 @@ export default function StudentCategoryList() {
 
                     <Button
                       variant="outlined"
-                      onClick={() => navigate(`/student?category=${encodeURIComponent(category.name)}`)}
+                      onClick={() => navigate(`/student/categories/${encodeURIComponent(category.name)}`)}
                     >
                       Browse quizzes
                     </Button>
