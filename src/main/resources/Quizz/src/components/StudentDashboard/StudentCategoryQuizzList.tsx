@@ -73,7 +73,7 @@ export default function StudentCategoryQuizzList() {
         component="main"
         sx={{
           flex: 1,
-          backgroundColor: "#f8f9fa",
+          backgroundColor: "#dcecff",
           maxWidth: 1180,
           mx: "auto",
           px: { xs: 2, md: 4 },
@@ -92,7 +92,20 @@ export default function StudentCategoryQuizzList() {
               </Typography>
             </Box>
 
-            <Button variant="outlined" onClick={() => navigate("/student/categories")}>
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/student/categories")}
+              sx={{
+                alignSelf: { xs: "flex-start", sm: "center" },
+                minWidth: "auto",
+                px: 2,
+                py: 0.75,
+                borderRadius: 2.5,
+                textTransform: "none",
+                fontWeight: 600,
+                fontSize: "0.95rem",
+              }}
+            >
               Back to categories
             </Button>
           </Stack>

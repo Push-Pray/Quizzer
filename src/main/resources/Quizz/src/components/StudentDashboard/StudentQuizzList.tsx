@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StudentDashboardHeader from "./StudentDashboardHeader";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -13,7 +12,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import logo from "../../assets/LogoQuiz.png";
 import type { QuizzData } from "../types";
 import { fetchPublishedQuizz } from "../../quizzapi";
 
@@ -50,7 +48,7 @@ export default function StudentQuizzList() {
         component="main"
         sx={{
           flex: 1,
-          backgroundColor: "#f8f9fa",
+          backgroundColor: "#dcecff",
           maxWidth: 1180,
           mx: "auto",
           px: { xs: 2, md: 4 },
@@ -63,53 +61,21 @@ export default function StudentQuizzList() {
           spacing={2}
           sx={{
             mb: 3,
-            justifyContent: "space-between",
             alignItems: { xs: "flex-start", sm: "center" },
           }}
         >
-          <Stack
-            direction="row"
-            spacing={2}
+          <Typography
+            variant="h3"
             sx={{
-              alignItems: "center",
+              m: 0,
+              fontSize: { xs: "2rem", md: "2.4rem" },
+              fontWeight: 700,
+              color: "#0f172a",
+              letterSpacing: "-0.03em",
             }}
           >
-            <Box
-              component="img"
-              src={logo}
-              alt="Quizzer logo"
-              sx={{
-                width: { xs: 68, md: 84 },
-                height: { xs: 68, md: 84 },
-                objectFit: "contain",
-                flexShrink: 0,
-              }}
-            />
-
-            <Box>
-              <Typography
-                variant="h3"
-                sx={{
-                  m: 0,
-                  fontSize: { xs: "2rem", md: "2.4rem" },
-                  fontWeight: 700,
-                  color: "#0f172a",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                Published quizzes
-              </Typography>
-              <Typography sx={{ mt: 0.75, color: "#5b6b86" }}>
-                Browse all published quizzes or open a category-specific list.
-              </Typography>
-            </Box>
-          </Stack>
-
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
-            <Button variant="outlined" onClick={() => navigate("/student/categories")}>
-              Browse categories
-            </Button>
-          </Stack>
+            Quizzes
+          </Typography>
         </Stack>
 
         {loading ? (

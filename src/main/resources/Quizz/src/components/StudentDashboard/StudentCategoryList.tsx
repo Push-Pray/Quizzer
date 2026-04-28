@@ -58,7 +58,7 @@ export default function StudentCategoryList() {
         component="main"
         sx={{
           flex: 1,
-          backgroundColor: "#f8f9fa",
+          backgroundColor: "#dcecff",
           maxWidth: 980,
           mx: "auto",
           px: { xs: 2, md: 4 },
