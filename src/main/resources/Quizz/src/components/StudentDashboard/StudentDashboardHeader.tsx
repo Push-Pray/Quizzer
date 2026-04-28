@@ -85,6 +85,18 @@ function StudentDashboardHeader({ activePage }: StudentDashboardHeaderProps) {
           >
             Published quizzes
           </Button>
+          <Button
+            variant="text"
+            disableElevation
+            sx={{
+              ...navButtonSx,
+              fontWeight: activePage === "categories" ? 700 : 500,
+              color: activePage === "categories" ? "#2156c9" : "#42526b",
+            }}
+            onClick={() => navigate("/student/categories")}
+          >
+            Categories
+          </Button>
         </Stack>
       </Stack>
     </Box>

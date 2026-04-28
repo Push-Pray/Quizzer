@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import StudentDashboardHeader from "./StudentDashboardHeader";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -13,8 +14,14 @@ import { fetchPublishedQuizz } from "../../quizzapi";
 
 export default function StudentQuizzList() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [quizzes, setQuizzes] = useState<QuizzData[]>([]);
   const [loading, setLoading] = useState(true);
+  const activeCategory = searchParams.get("category")?.trim() ?? "";
+
+  const filteredQuizzes = activeCategory
+    ? quizzes.filter((quiz) => (quiz.category ?? quiz.categoryID?.name ?? "") === activeCategory)
+    : quizzes;
 
   const columns: GridColDef<QuizzData>[] = [
     {
@@ -167,7 +174,21 @@ export default function StudentQuizzList() {
               >
                 Published quizzes
               </Typography>
+              <Typography sx={{ mt: 0.75, color: "#5b6b86" }}>
+                {activeCategory ? `Showing quizzes in ${activeCategory}.` : "Browse all published quizzes or filter by category."}
+              </Typography>
             </Box>
+          </Stack>
+
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
+            <Button variant="outlined" onClick={() => navigate("/student/categories")}>
+              Browse categories
+            </Button>
+            {activeCategory ? (
+              <Button variant="text" onClick={() => setSearchParams({})}>
+                Clear filter
+              </Button>
+            ) : null}
           </Stack>
         </Stack>
 
@@ -175,9 +196,11 @@ export default function StudentQuizzList() {
           <Paper sx={{ p: 4, textAlign: "center" }}>
             <Typography>Loading published quizzes...</Typography>
           </Paper>
-        ) : quizzes.length === 0 ? (
+        ) : filteredQuizzes.length === 0 ? (
           <Paper sx={{ p: 4, textAlign: "center" }}>
-            <Typography>No published quizzes available yet.</Typography>
+            <Typography>
+              {activeCategory ? `No published quizzes found in ${activeCategory}.` : "No published quizzes available yet."}
+            </Typography>
           </Paper>
         ) : (
           <Paper
@@ -192,7 +215,7 @@ export default function StudentQuizzList() {
           >
             <Box sx={{ width: "100%", minHeight: 520 }}>
               <DataGrid
-                rows={quizzes || []}
+                rows={filteredQuizzes}
                 columns={columns}
                 getRowId={(row) => row.id}
                 initialState={{

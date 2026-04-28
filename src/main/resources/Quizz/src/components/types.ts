@@ -1,5 +1,11 @@
 export type QuestionDifficulty = "easy" | "medium" | "hard";
 
+export type CategoryData = {
+    id: number;
+    name: string;
+    description: string;
+};
+
 export type OptionData = {
     text: string;
     isCorrect: boolean;
