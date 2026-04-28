@@ -4,14 +4,15 @@ import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.service.QuizzService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
+@Tag(name = "Quizzes", description = "Everything related to creating and managing quizzes")
 public class QuizzRestController {
 
     private final QuizzService quizzService;
@@ -21,6 +22,7 @@ public class QuizzRestController {
         this.quizzService = quizzService;
     }
 
+    @Operation(summary = "Get all quizzes", description = "Retrieves a list of all quizzes in the database")
     @GetMapping("/quizz")
     public ResponseEntity<Object> listAllQuizz(){
 
@@ -31,6 +33,7 @@ public class QuizzRestController {
         }
     }
 
+    @Operation(summary = "Get published quizzes", description = "Retrieves a list of all quizzes that are currently marked as published")
     @GetMapping("/quizz/published")
     public ResponseEntity<Object> listPublishedQuizz(){
         try {
@@ -40,6 +43,7 @@ public class QuizzRestController {
         }
     }
 
+    @Operation(summary = "Create a new quiz", description = "Saves a brand new quiz to the database")
     @PostMapping("/quizz")
     public ResponseEntity<Object> createQuizz(@RequestBody QuizzInfoDTO quizz){
         try {
@@ -51,6 +55,7 @@ public class QuizzRestController {
         }
     }
 
+    @Operation(summary = "Delete a quiz", description = "Removes a quiz from the system using its ID")
     @DeleteMapping("/quizz/{id}")
     public ResponseEntity<Object> deleteCourse(@PathVariable Long id) {
         try {
@@ -61,6 +66,7 @@ public class QuizzRestController {
         }
     }
 
+    @Operation(summary = "Update a quiz", description = "Updates the details (name, category, etc.) of an existing quiz")
     @PutMapping("/quizz/{id}")
     public ResponseEntity<Object> updateQuizz(@PathVariable Long id, @RequestBody QuizzInfoDTO updatedQuizzDTO) {
         try {
@@ -71,6 +77,7 @@ public class QuizzRestController {
         }
     }
 
+    @Operation(summary = "Get questions for a quiz", description = "Retrieves a list of all questions belonging to a specific quiz ID")
     @GetMapping("/quizz/{id}/questions")
     public ResponseEntity<Object> listQuizzQuestions(@PathVariable Long id) {
         try {
@@ -80,6 +87,7 @@ public class QuizzRestController {
         }
     }
 
+    @Operation(summary = "Delete a question from a quiz", description = "Removes a specific question from a specific quiz")
     @DeleteMapping("/quizz/{quizzId}/question/{questionId}")
     public ResponseEntity<Object> deleteQuestion(@PathVariable Long quizzId, @PathVariable Long questionId){
 

@@ -20,10 +20,13 @@ import com.example.quizzer.DTO.QuestionInfoDTO;
 import com.example.quizzer.DTO.QuestionResultDTO;
 import com.example.quizzer.DTO.QuizzInfoDTO;
 import com.example.quizzer.service.QuizzService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
+@Tag(name = "Questions", description = "Everything related to managing quiz questions, answer options, and student answers")
 public class QuestionRestController {
 
     private final QuizzService quizzService;
@@ -32,6 +35,7 @@ public class QuestionRestController {
         this.quizzService = quizzService;
     }
 
+    @Operation(summary = "Add a new question", description = "Creates a new question and attaches it to a specific quiz ID")
     @PostMapping("/quizz/{id}/question")
     public ResponseEntity<Object> createQuestion(@PathVariable Long id, @RequestBody QuestionDTO questionDTO) {
         try {
@@ -42,6 +46,7 @@ public class QuestionRestController {
         }
     }
 
+    @Operation(summary = "Add an answer option", description = "Adds a new multiple-choice option to a specific question and sets whether it is the correct answer")
     @PostMapping("/question/{questionId}/option")
     public ResponseEntity<Object> addAnswerOption(@PathVariable Long questionId,
                                                   @RequestParam String text,
@@ -54,6 +59,7 @@ public class QuestionRestController {
         }
     }
 
+    @Operation(summary = "Get all answer options", description = "Retrieves a list of all available options for a specific question")
     @GetMapping("/question/{questionId}/options")
     public ResponseEntity<Object> getAlloptions(@PathVariable Long questionId) {
         try {
@@ -65,6 +71,7 @@ public class QuestionRestController {
         }
     }
 
+    @Operation(summary = "Get questions for a quiz", description = "Retrieves a list of all questions belonging to a specific quiz")
     @GetMapping("/quizz/{id}/question")
     public ResponseEntity<Object> getQuestionsForQuizz(@PathVariable Long id) {
         try {
@@ -75,6 +82,7 @@ public class QuestionRestController {
         }
     }
 
+    @Operation(summary = "Delete an answer option", description = "Removes a specific answer option from a question using its index position")
     @DeleteMapping("/question/{questionId}/option/{optionIndex}")
     public ResponseEntity<Object> deleteAnswerOption(@PathVariable Long questionId, @PathVariable int optionIndex) {
         try {
@@ -85,6 +93,7 @@ public class QuestionRestController {
         }
     }
 
+    @Operation(summary = "Submit an answer", description = "Submits a user's answer (by index) to a specific question to check if it is correct")
     @PostMapping("/question/{questionId}/answer")
     public ResponseEntity<Object> answerQuestion(@PathVariable Long questionId,
                                                  @RequestParam int optionIndex) {
@@ -96,6 +105,7 @@ public class QuestionRestController {
         }
     }
 
+    @Operation(summary = "Get quiz results", description = "Retrieves the answer results and statistics for all questions in a specific quiz")
     @GetMapping("/quizz/{quizzId}/question-results")
     public ResponseEntity<Object> getQuestionResults(@PathVariable Long quizzId) {
         try {
