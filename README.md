@@ -163,4 +163,43 @@ To inspect the database natively, you can verify if the H2 console is enabled (v
   - To add test quizzes, edit `SampleDataService.init()` method in `src/main/java/com/example/quizzer/SampleDataService.java`
   - Now it's filled with 2 test quizzes with several questions about geography, you can add any quizzes and questions you want.
 
+## Data model
 
+```mermaid
+erDiagram
+
+    CATEGORY {
+        Long id
+        String name
+        String description
+    }
+
+    QUIZZ {
+        Long id
+        String name
+        String description
+        String course
+        Boolean published
+        LocalDate creationDate
+        Long category_id
+    }
+
+    QUESTION {
+        Long id
+        String text
+        Integer difficulty
+        Integer correctIndex
+        Integer correctAnswers
+        Integer wrongAnswers
+    }
+
+    USER {
+        Long id
+        String username
+        String passwordHash
+        String role
+    }
+
+    CATEGORY ||--o{ QUIZZ : classifies
+    QUIZZ ||--o{ QUESTION : contains
+```
