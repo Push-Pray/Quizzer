@@ -37,7 +37,7 @@ Welcome to the **Quizzer** project! This guide is intended to help new developer
 Quizzer is a web application designed for creating and managing quizzes. It's the first team project for the Software Development Project 1 course. The application allows teachers (or admins) to create questions, assemble quizzes, and manage options using an intuitive dashboard.
 
 ## Project Deployment
-Project address: [https://quizzer-git-software-development-project-1-quizzer.2.rahtiapp.fi] (https://quizzer-git-software-development-project-1-quizzer.2.rahtiapp.fi)
+Project address: https://quizzer-git-software-development-project-1-quizzer.2.rahtiapp.fi
 
 ## Tech Stack
 The project is split into a backend built with Java and a frontend built with React.
