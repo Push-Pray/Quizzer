@@ -18,6 +18,7 @@ The very first team project on the Software Development Project 1 course.
 
 # Flinga Board
 - [Flinga](https://edu.flinga.fi/s/EFPWNW2)
+- [Flinga Retrospective 2](https://edu.flinga.fi/s/EMZSX9V)
 
 # Quizzer - Developer Guide
 
