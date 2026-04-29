@@ -17,7 +17,7 @@ The very first team project on the Software Development Project 1 course.
 - [Github Project](https://github.com/orgs/Push-Pray/projects/4)
 
 # Flinga Board
-- [Flinga](https://edu.flinga.fi/s/EFPWNW2)
+- [Flinga Retrospective 1](https://edu.flinga.fi/s/EFPWNW2)
 - [Flinga Retrospective 2](https://edu.flinga.fi/s/EMZSX9V)
 
 # Quizzer - Developer Guide
