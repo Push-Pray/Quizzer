@@ -25,6 +25,9 @@ public class Quizz {
     private final LocalDate creationDate = LocalDate.now();
     private String category;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "quizz")
+    private final List<Review> reviews = new ArrayList <>();
+
     public Quizz() {
 
     }
