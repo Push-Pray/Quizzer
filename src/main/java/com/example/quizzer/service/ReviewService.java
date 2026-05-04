@@ -67,4 +67,16 @@ public class ReviewService {
 
         return deletedReview;
     }
+
+    public Review updateReview(Long reviewId, Review updatedReview) {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found"));
+
+        review.setNickname(updatedReview.getNickname());
+        review.setGrade(updatedReview.getGrade());
+        review.setText(updatedReview.getText());
+
+        return reviewRepository.save(review);
+    }
 }
