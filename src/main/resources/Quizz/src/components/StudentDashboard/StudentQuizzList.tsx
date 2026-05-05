@@ -124,6 +124,7 @@ export default function StudentQuizzList() {
                     <TableCell>Category</TableCell>
                     <TableCell>Created</TableCell>
                     <TableCell>Results</TableCell>
+                    <TableCell>Reviews</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -161,6 +162,21 @@ export default function StudentQuizzList() {
                           onClick={() => navigate(`/student/quizz/${quiz.id}/results`)}
                         >
                           See results
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link
+                          component="button"
+                          underline="hover"
+                          sx={{
+                            fontWeight: 600,
+                            color: "#2156c9",
+                            textAlign: "left",
+                            textDecorationColor: "rgba(33, 86, 201, 0.35)",
+                          }}
+                          onClick={() => navigate(`/student/quizz/${quiz.id}/reviews`)}
+                        >
+                          See reviews
                         </Link>
                       </TableCell>
                     </TableRow>

@@ -72,3 +72,11 @@ export type QuestionResultData = {
     correctAnswers: number;
     wrongAnswers: number;
 };
+
+export type ReviewData = {
+    id: number;
+    nickname: string;
+    grade: number;
+    text: string;
+    creationDate: string;
+};

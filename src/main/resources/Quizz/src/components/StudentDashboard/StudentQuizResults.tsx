@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Paper from "@mui/material/Paper";
@@ -11,6 +11,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import StudentDashboardHeader from "./StudentDashboardHeader";
 import type { QuestionDifficulty, QuestionResultData, QuizzData } from "../types";
 import { fetchQuestionResults } from "../../questionapi";
@@ -26,18 +27,13 @@ export default function StudentQuizResults() {
   const { id } = useParams<{ id: string }>();
   const [quiz, setQuiz] = useState<QuizzData | null>(null);
   const [rows, setRows] = useState<QuestionResultRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(!id);
+  const [error, setError] = useState<string | null>(id ? null : "No quiz ID provided.");
 
   useEffect(() => {
     if (!id) {
-      setError("No quiz ID provided.");
-      setLoading(false);
       return;
     }
-
-    setLoading(true);
-    setError(null);
 
     Promise.all([fetchPublishedQuizz(), fetchQuestionResults(Number(id))])
       .then(([quizzes, results]) => {
@@ -97,11 +93,27 @@ export default function StudentQuizResults() {
             }}
           >
             <Typography component="h1" variant="h3" sx={{ mb: 0.75, fontWeight: 700, color: "#0f172a", fontSize: { xs: "2rem", md: "2.5rem" } }}>
-              {quiz ? `Results of \"${quiz.name}\"` : "Quiz results"}
+              {quiz ? `Results of "${quiz.name}"` : "Quiz results"}
             </Typography>
-            <Typography variant="body1" sx={{ color: "#475569", fontSize: "1rem" }}>
-              {`${totalAnswers} answers to ${rows.length} questions`}
-            </Typography>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              sx={{ justifyContent: "space-between", alignItems: "flex-start" }}
+            >
+              <Typography variant="body1" sx={{ color: "#475569", fontSize: "1rem" }}>
+                {`${totalAnswers} answers to ${rows.length} questions`}
+              </Typography>
+              {quiz && (
+                <Button
+                  component={Link}
+                  to={`/student/quizz/${id}/reviews`}
+                  variant="outlined"
+                  sx={{ borderRadius: 2, textTransform: "none", fontWeight: 700, color: "#2563eb", borderColor: "#c7dafe" }}
+                >
+                  View reviews
+                </Button>
+              )}
+            </Stack>
           </Paper>
 
           {loading ? (

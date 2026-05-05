@@ -10,6 +10,7 @@ import StudentCategoryList from './components/StudentDashboard/StudentCategoryLi
 import StudentCategoryQuizzList from './components/StudentDashboard/StudentCategoryQuizzList';
 import StudentQuizQuestions from './components/StudentDashboard/StudentQuizQuestions';
 import StudentQuizResults from './components/StudentDashboard/StudentQuizResults';
+import StudentQuizReviews from './components/StudentDashboard/StudentQuizReviews';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path= "/student/categories/:categoryName" element={<StudentCategoryQuizzList />} />
             <Route path= "/student/quizz/:id" element={<StudentQuizQuestions />} />
             <Route path= "/student/quizz/:id/results" element={<StudentQuizResults />} />
+            <Route path= "/student/quizz/:id/reviews" element={<StudentQuizReviews />} />
           </Routes>
         </main>
       </div>

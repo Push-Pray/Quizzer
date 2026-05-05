@@ -37,11 +37,11 @@ public class ReviewRestController {
     }
 
     @Operation(summary = "Get all Reviews from a quizz", description = "Retrieve all Reviews from a selected Quizz")
-    @GetMapping("/quizzes/{quizId}/reviews")
-    public ResponseEntity<Object> getReviews(@PathVariable Long quizId) {
+    @GetMapping("/quizzes/{quizzId}/reviews")
+    public ResponseEntity<Object> getReviews(@PathVariable Long quizzId) {
         try {
             
-            List<Review> mylist = reviewService.getReviewsByQuizId(quizId);
+            List<Review> mylist = reviewService.getReviewsByQuizId(quizzId);
             return ResponseEntity.ok().body(mylist);
         }catch (Exception e){
 
