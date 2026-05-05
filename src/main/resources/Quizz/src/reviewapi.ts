@@ -36,3 +36,38 @@ export const submitQuizReview = async (
 
   return response.json() as Promise<ReviewData>;
 };
+
+export const updateQuizReview = async (
+  reviewId: number,
+  review: NewReviewPayload,
+): Promise<ReviewData> => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/reviews/${reviewId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(review),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Error updating quiz review");
+  }
+
+  return response.json() as Promise<ReviewData>;
+};
+
+export const deleteQuizReview = async (reviewId: number): Promise<ReviewData> => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Error deleting quiz review");
+  }
+
+  return response.json() as Promise<ReviewData>;
+};
+
+

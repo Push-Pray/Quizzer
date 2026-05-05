@@ -11,14 +11,18 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import type { ReviewData } from "../types";
 
 type ReviewListProps = {
   reviews: ReviewData[];
   loading: boolean;
   error: string | null;
-  quizName: string;
   onSubmit: (review: Omit<ReviewData, "id" | "creationDate">) => Promise<void>;
+  onUpdate: (reviewId: number, review: Omit<ReviewData, "id" | "creationDate">) => Promise<void>;
+  onDelete: (reviewId: number) => Promise<void>;
 };
 
 const gradeOptions = [
@@ -29,13 +33,14 @@ const gradeOptions = [
   { value: 5, label: "5 - Excellent" },
 ];
 
-export default function ReviewList({ reviews, loading, error, onSubmit }: ReviewListProps) {
+export default function ReviewList({ reviews, loading, error, onSubmit, onUpdate, onDelete }: ReviewListProps) {
   const [nickname, setNickname] = useState("");
   const [grade, setGrade] = useState<number>(4);
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [editingReview, setEditingReview] = useState<ReviewData | null>(null);
 
   const averageRating = useMemo(() => {
     if (reviews.length === 0) {
@@ -55,15 +60,47 @@ export default function ReviewList({ reviews, loading, error, onSubmit }: Review
     setSubmitError(null);
 
     try {
-      await onSubmit({ nickname: nickname.trim(), grade, text: text.trim() });
+      if (editingReview) {
+        await onUpdate(editingReview.id, { nickname: nickname.trim(), grade, text: text.trim() });
+        setEditingReview(null);
+      } else {
+        await onSubmit({ nickname: nickname.trim(), grade, text: text.trim() });
+      }
       setNickname("");
       setGrade(4);
       setText("");
+      setShowForm(false);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Failed to submit review.");
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleEdit = (review: ReviewData) => {
+    setEditingReview(review);
+    setNickname(review.nickname);
+    setGrade(review.grade);
+    setText(review.text);
+    setShowForm(true);
+  };
+
+  const handleDelete = async (reviewId: number) => {
+    if (!confirm("Are you sure you want to delete this review?")) return;
+    try {
+      await onDelete(reviewId);
+    } catch (error) {
+      alert("Failed to delete review.");
+    }
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingReview(null);
+    setNickname("");
+    setGrade(4);
+    setText("");
+    setSubmitError(null);
   };
 
   return (
@@ -86,7 +123,7 @@ export default function ReviewList({ reviews, loading, error, onSubmit }: Review
 
         {showForm ? (
           <Paper sx={{ p: 2.5, mb: 3, borderRadius: 3, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc" }}>
-            <Typography sx={{ fontWeight: 700, mb: 2, color: "#0f172a" }}>Write your review</Typography>
+            <Typography sx={{ fontWeight: 700, mb: 2, color: "#0f172a" }}>{editingReview ? "Edit your review" : "Write your review"}</Typography>
             <Stack spacing={2}>
               <TextField
                 label="Nickname"
@@ -146,11 +183,11 @@ export default function ReviewList({ reviews, loading, error, onSubmit }: Review
                     letterSpacing: 0.5,
                   }}
                 >
-                  {submitting ? "Submitting..." : "Submit your review"}
+                  {submitting ? "Submitting..." : editingReview ? "Update review" : "Submit your review"}
                 </Button>
                 <Button
                   variant="text"
-                  onClick={() => setShowForm(false)}
+                  onClick={handleCancel}
                   sx={{
                     textTransform: "none",
                     color: "#475569",
@@ -162,7 +199,7 @@ export default function ReviewList({ reviews, loading, error, onSubmit }: Review
               </Stack>
             </Stack>
           </Paper>
-        ) : (
+        ) : !editingReview ? (
           <Button
             variant="contained"
             onClick={() => setShowForm(true)}
@@ -178,7 +215,7 @@ export default function ReviewList({ reviews, loading, error, onSubmit }: Review
           >
             Write a review
           </Button>
-        )}
+        ) : null}
 
         {loading ? (
           <Box sx={{ textAlign: "center", py: 4 }}>
@@ -196,7 +233,17 @@ export default function ReviewList({ reviews, loading, error, onSubmit }: Review
             ) : (
               reviews.map((review) => (
                 <Paper key={review.id} sx={{ p: 3, borderRadius: 3, bgcolor: "#f8fafc" }}>
-                  <Typography sx={{ fontWeight: 700, color: "#0f172a" }}>{review.nickname}</Typography>
+                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
+                    <Typography sx={{ fontWeight: 700, color: "#0f172a" }}>{review.nickname}</Typography>
+                    <Box>
+                      <IconButton size="small" onClick={() => handleEdit(review)} sx={{ color: "#2563eb" }}>
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" onClick={() => handleDelete(review.id)} sx={{ color: "#dc2626" }}>
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </Box>
                   <Typography sx={{ color: "#475569", fontSize: "0.9rem", mb: 1.5 }}>
                     Rating: {review.grade}/5 · Written on: {new Date(review.creationDate).toLocaleDateString()}
                   </Typography>

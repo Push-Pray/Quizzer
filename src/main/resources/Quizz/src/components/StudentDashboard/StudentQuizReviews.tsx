@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import StudentDashboardHeader from "./StudentDashboardHeader";
 import type { QuizzData, ReviewData } from "../types";
 import { fetchPublishedQuizz } from "../../quizzapi";
-import { fetchQuizReviews, submitQuizReview } from "../../reviewapi";
+import { fetchQuizReviews, submitQuizReview, updateQuizReview, deleteQuizReview } from "../../reviewapi";
 import ReviewList from "./ReviewList";
 
 export default function StudentQuizReviews() {
@@ -58,6 +58,17 @@ export default function StudentQuizReviews() {
     setReviews((current) => [created, ...current]);
   };
 
+  const handleUpdateReview = async (reviewId: number, review: Omit<ReviewData, "id" | "creationDate">) => {
+    if (!id) return;
+    const updated = await updateQuizReview(reviewId, review);
+    setReviews((current) => current.map((r) => (r.id === reviewId ? updated : r)));
+  };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    await deleteQuizReview(reviewId);
+    setReviews((current) => current.filter((r) => r.id !== reviewId));
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <StudentDashboardHeader activePage="quizzes" />
@@ -93,8 +104,9 @@ export default function StudentQuizReviews() {
             reviews={reviews}
             loading={reviewLoading}
             error={reviewError}
-            quizName={quiz?.name ?? "this quiz"}
             onSubmit={handleAddReview}
+            onUpdate={handleUpdateReview}
+            onDelete={handleDeleteReview}
           />
 
           {loading && (
