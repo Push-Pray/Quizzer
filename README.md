@@ -31,6 +31,9 @@ Welcome to the **Quizzer** project! This guide is intended to help new developer
 4. [Getting Started](#getting-started)
 5. [Database Configuration](#database-configuration)
 6. [Best Practices & Recommended Tools](#best-practices--recommended-tools)
+7. [Technical Documentation](#technical-documentation)
+8. [Data Model](#data-model)
+9. [Running Tests](#running-tests)
 
 ---
 
@@ -234,26 +237,30 @@ erDiagram
     QUIZZ ||--o{ REVIEW : has
 ```
 
-## Running tests
+## Running Tests
 
 You can run all tests from the command line using Maven.
 
 On macOS and Linux:
-   ```./mvnw test
+   ```bash
+   ./mvnw test
    ```
 
 On Windows:
-   ```mvnw.cmd test
+   ```bash
+   mvnw.cmd test
    ```
 
 To run a specific test class:
 
 macOS / Linux:
-   ```./mvnw -Dtest=AnswerRestControllerTests test
+   ```bash
+   ./mvnw -Dtest=AnswerRestControllerTests test
    ```
 
 Windows:
-   ```mvnw.cmd -Dtest=AnswerRestControllerTests test
+   ```bash
+   mvnw.cmd -Dtest=AnswerRestControllerTests test
    ```
 
 Tests use an in-memory H2 database defined in src/test/resources/application.properties. Test data is recreated before each test execution, and running tests does not affect the development database.
