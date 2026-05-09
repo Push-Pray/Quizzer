@@ -10,8 +10,10 @@ import jakarta.annotation.PostConstruct;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+@Profile("!test") // This service will not be loaded when the "test" profile is active
 @Service
 public class SampleDataService {
 

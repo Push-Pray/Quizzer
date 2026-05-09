@@ -143,15 +143,34 @@ To inspect the database natively, you can verify if the H2 console is enabled (v
 ## Technical Documentation
 
 - **API Reference**
-  - `GET /api/quizz` — retrieve all quizzes
-  - `GET /api/quizz/published` — retrieve only published quizzes for students
-  - `GET /api/quizz/{id}/questions` — retrieve questions for a single quiz
-  - `POST /api/quizz` — create a new quiz
-  - `POST /api/quizz/{id}/question` — add a question to a quiz
-  - `DELETE /api/quizz/{quizzId}/question/{questionId}` — remove a question from a quiz
-  - `GET /question/{questionId}/options` — list answer options for a question
-  - `POST /question/{questionId}/option` — add a new answer option
-  - `POST /question/{questionId}/answer` — submit an answer to a question
+  **`Categories`**:
+  - `GET /api/categories` - get all categories
+  - `POST /api/categories` - create a new category
+  - `DELETE /api/categories/{id}` - delete a category
+
+  **`Questions`**:
+  - `GET /api/quizz/{id}/question` - get questions for a quiz
+  - `POST /api/quizz/{id}/question` - add a new question
+  - `POST /api/question/{questionId}/option` - add an answer option
+  - `POST /api/question/{questionId}/answer` - submit an answer
+  - `GET /api/quizz/{quizzId}/question-results` - get quiz results
+  - `GET /api/question/{questionId}/options` - get all answer options
+  - `DELETE /api/question/{questionId}/option/{optionIndex}` - delete an answer option
+
+  **`Quizzes`**:
+  - `PUT /api/quizz/{id}` - update a quiz
+  - `DELETE /api/quizz/{id}` - delete a quiz
+  - `GET /api/quizz` - get all quizzes
+  - `POST /api/quizz` - create a new quizz
+  - `GET /api/quizz/{id}/questions` - get questions for a quiz
+  - `GET /api/quizz/published` - get published quizzes
+  - `DELETE /api/quizz/{quizzId}/question/{questionId}` - delete a question from a quiz
+
+  **`Reviews`**:
+  - `PUT /api/reviews/{reviewId}` - edit a review
+  - `DELETE /api/reviews/{reviewId}` - delete a review
+  - `POST /api/quizzes/{quizzId}/reviews` - post a new review
+  - `GET /api/quizzes/{quizzId}/reviews` - get all reviews from a quizz
 
 - **Frontend routes and views**
   - `/student` — published quiz list for students
@@ -201,6 +220,40 @@ erDiagram
         String role
     }
 
+    REVIEW {
+        Long id
+        String nickname
+        Integer grade
+        String text
+        LocalDate creationDate
+        Long quizz_id
+    }
+
     CATEGORY ||--o{ QUIZZ : classifies
     QUIZZ ||--o{ QUESTION : contains
+    QUIZZ ||--o{ REVIEW : has
 ```
+
+## Running tests
+
+You can run all tests from the command line using Maven.
+
+On macOS and Linux:
+   ```./mvnw test
+   ```
+
+On Windows:
+   ```mvnw.cmd test
+   ```
+
+To run a specific test class:
+
+macOS / Linux:
+   ```./mvnw -Dtest=AnswerRestControllerTests test
+   ```
+
+Windows:
+   ```mvnw.cmd -Dtest=AnswerRestControllerTests test
+   ```
+
+Tests use an in-memory H2 database defined in src/test/resources/application.properties. Test data is recreated before each test execution, and running tests does not affect the development database.
