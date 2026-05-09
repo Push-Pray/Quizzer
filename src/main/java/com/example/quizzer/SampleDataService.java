@@ -3,6 +3,7 @@ package com.example.quizzer;
 import com.example.quizzer.model.Category;
 import com.example.quizzer.model.Question;
 import com.example.quizzer.model.Quizz;
+import com.example.quizzer.model.Review;
 import com.example.quizzer.model.User;
 import com.example.quizzer.repository.*;
 import jakarta.annotation.PostConstruct;
@@ -18,13 +19,15 @@ public class SampleDataService {
     private final QuestionRepository questionRepository;
     private final QuizzRepository quizzRepository;
     private final CategoryRepository categoryRepository;
+    private final ReviewRepository reviewRepository;
 
-    public SampleDataService(UserRepository userRepository, QuestionRepository questionRepository, QuizzRepository quizzRepository, CategoryRepository categoryRepository) {
+    public SampleDataService(UserRepository userRepository, QuestionRepository questionRepository, QuizzRepository quizzRepository, CategoryRepository categoryRepository, ReviewRepository reviewRepository) {
 
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
         this.quizzRepository = quizzRepository;
         this.categoryRepository = categoryRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @PostConstruct
@@ -41,7 +44,7 @@ public class SampleDataService {
         try {
             if (quizzRepository.count() == 0) {
 
-                categoryRepository.save(new Category("Geography", "Questions from arround the world"));
+                categoryRepository.save(new Category("Geography", "Questions from around the world"));
                 Quizz quiz1 = new Quizz("Capitals");
                 quiz1.setDescription("Test your knowledge of world capitals");
                 quiz1.setCourse("Gph101");
@@ -65,6 +68,23 @@ public class SampleDataService {
                 quiz1.getQuestions().add(q2);
 
                 quizzRepository.save(quiz1);
+
+                Review review1 = new Review(
+                        "Patrick",
+                        4,
+                        "Very interesting quiz, but not so many questions."
+                );
+                review1.setQuizz(quiz1);
+
+                Review review2 = new Review(
+                        "Gary",
+                        3,
+                        "Good questions but a bit easy."
+                );
+                review2.setQuizz(quiz1);
+
+                reviewRepository.save(review1);
+                reviewRepository.save(review2);
 
                 Quizz quiz2 = new Quizz("Highest Mountains");
                 quiz2.setDescription("Test your knowledge of the world's highest mountains");
@@ -97,6 +117,23 @@ public class SampleDataService {
                 quiz2.getQuestions().add(q5);
 
                 quizzRepository.save(quiz2);
+
+                Review review3 = new Review(
+                        "Karen",
+                        1,
+                        "Elbrus is not the highest mountain in Europe, it's Mont Blanc!"
+                );
+                review3.setQuizz(quiz2);
+
+                Review review4 = new Review(
+                        "Mr. Krabs",
+                        5,
+                        "Good quiz, I learned a lot about mountains!"
+                );
+                review4.setQuizz(quiz2);
+
+                reviewRepository.save(review3);
+                reviewRepository.save(review4);
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
