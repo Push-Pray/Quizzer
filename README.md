@@ -264,3 +264,8 @@ Windows:
    ```
 
 Tests use an in-memory H2 database defined in src/test/resources/application.properties. Test data is recreated before each test execution, and running tests does not affect the development database.
+
+# LICENSE
+### License
+
+This project is [MIT licensed](./LICENSE).
